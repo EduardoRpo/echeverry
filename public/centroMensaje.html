@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Mensajes</title>
+    <link rel="stylesheet" type="text/css" href="consultaTerminacion.css">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <!------------------datatable------------>
+
+     <!--datables CSS básico-->
+     <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css" />
+     <!--datables estilo bootstrap 4 CSS-->
+     <link rel="stylesheet" type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
+ 
+    
+        <!--firebase-->
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-analytics.js"></script>
+
+
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+
+     
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
+ <!------------------------------------------Sweet alert2------------------------->
+ <link rel="stylesheet" href="plugins/sweetalert2/sweetalert2.min.css">
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+ <script src="sweetalert2.all.min.js"></script>
+ <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+ <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+        <!------jquery------->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<body style="background-color: cadetblue;">
+    <nav class="navbar navbar-light bg-dark" >
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" style="color: #ffff; font-weight: bold;">
+            <img src="img/logo.jpg" alt="" width="40" height="44" class="d-inline-block align-text-top">
+            Representaciones Echeverry Correa
+          </a>
+        </div>
+      </nav>
+
+      <div class="container">
+
+
+      <div class="table-wrapper-scroll-y my-custom-scrollbar3" id="tablaActivos"
+        style="margin-top: 15px; margin-left: 40px; width: 500px; float: left;">
+        <label style="font-weight: bold; font-size: large; color: brown; margin-left: 40%; ">Usuarios Activos</label>
+        <table class="table table-bordered table-striped mb-0" id="dtVerticalScrollExample" cellspacing="0"
+            width="100%" style="background-color: honeydew; border-radius: 20px;">
+            <thead>
+                <tr>
+                    <th scope="col">Modulo</th>
+                    <th scope="col">Operarios</th>
+                    <th scope="col">#OP</th>
+
+
+                </tr>
+            </thead>
+            <tbody id="tabla3">
+
+            </tbody>
+        </table>
+
+        
+           
+    
+        </div>
+
+        <div class="" style="margin-top: 5%; float: right; width: 50%;"> 
+    
+        
+            <h5>Selecione el usuario</h5><input type="text" id="nomUsu" class="form-control" style="color: rgb(6, 34, 194); text-align: center; font-weight: bold; font-size: large; width: 30%;" autocomplete="on"
+            list="listadoNomb"> 
+            <datalist id="listadoNomb">
+                <option id="53c911ea609252c600632dfe" value="Preparación 1">Preparación 1
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Ruedo 1">Ruedo 1
+                <option id="53c911ea609252c600632dfe" value="Ruedo 2">Ruedo 2
+                <option id="53c911ea609252c600632dfe" value="Reproceso propio 1">Reproceso propio 1
+                <option id="53c911ea609252c600632dfe" value="Reproceso propio 2">Reproceso propio 2
+                <option id="53c911ea609252c600632dfe" value="Reproceso ajeno 1">Reproceso ajeno 1
+                <option id="53c911ea609252c600632dfe" value="Reproceso ajeno 2">Reproceso ajeno 2
+
+                <option id="53c911ea609252c600632dfe" value="Preparación 2">Preparación 2
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Preparación 3">Preparación 3
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Preparación 4">Preparación 4
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Integracion 1">Integracion 1
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Integracion 2">Integracion 2
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Integracion 3">Integracion 3
+                </option>
+
+                <option id="53c911ea609252c600632dfe" value="Ensamble 1">Ensamble 1
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Ensamble 2">Ensamble 2
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Apoyo preparacion 1">Apoyo preparacion 1
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Apoyo preparacion 2">Apoyo preparacion 2
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Apoyo ensamble 1">Apoyo ensamble 1
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Apoyo ensamble 2">Apoyo ensamble 2
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Terminación 1">Terminación 1
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Terminación 2">Terminación 2
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Terminación 3">Terminación 3
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Terminación 4">Terminación 4
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Pulida y Revisada 1">Pulida y Revisada 1
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Pulida y Revisada 2">Pulida y Revisada 2
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Pulida y Revisada 3">Pulida y Revisada 3
+                </option>
+
+                <option id="53c911ea609252c600632dfe" value="Alba Ines Roman">Alba Ines Roman
+                </option>
+                <option id="53c911ea60925sdfs4e444eg" value="Astrid Liliana Sanchez">Astrid Liliana
+                    Sanchez</option>
+                <option id="53c911ea6034534535k345th" value="Aurelio Mesa">Aurelio Mesa</option>
+                <option id="53c911ea60925234234234er" value="Blanca Jaramillo">Blanca Jaramillo
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Claudia Lopera">Claudia Lopera</option>
+                <option id="53c911ea60925sdfs4e444eg" value="Claudia Zapata">Claudia Zapata</option>
+                <option id="53c911ea6034534535k345th" value="Cristina Cataño">Cristina Cataño
+                </option>
+                <option id="53c911ea60925234234234er" value="Cristian Carvajal">Cristian Carvajal
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Dina David">Dina David</option>
+                <option id="53c911ea60925sdfs4e444eg" value="Deisy Castañeda">Deisy Castañeda
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Dora Isabel Munera">Dora Isabel Munera
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Dora Esperanza Parra">Dora Esperanza
+                    Parra
+                </option>
+
+                <option id="53c911ea609252c600632dfe" value="Esneida Garcia">Esneida Garcia</option>
+                <option id="53c911ea60925sdfs4e444eg" value="Geraldine Diaz">Geraldine Diaz</option>
+                <option id="53c911ea6034534535k345th" value="Gloria Ofelia Saldarriaga">Gloria
+                    Ofelia
+                    Saldarriaga
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Hercilia Vega">Hercilia Vega</option>
+                <option id="53c911ea60925sdfs4e444eg" value="Isabel Ruiz">Isabel Ruiz</option>
+                <option id="53c911ea6034534535k345th" value="Ledia Garcia">Ledia Garcia</option>
+                <option id="53c911ea60925234234234er" value="Leidy Tatiana Villada">Leidy Tatiana
+                    Villada</option>
+                <option id="53c911ea609252c600632dfe" value="Luz Arelis Palacios">Luz Arelis
+                    Palacios
+                </option>
+                <option id="53c911ea60925sdfs4e444eg" value="Luz Aide Arango">Luz Aide Arango
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Luz Elena Zapata">Luz Elena Zapata
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Luz Mery Moreno">Luz Mery Moreno
+                </option>
+
+                <option id="53c911ea609252c600632dfe" value="Luz Nady Holguin">Luz Nady Holguin
+                </option>
+                <option id="53c911ea60925sdfs4e444eg" value="Maria de los Angeles Gallego">Maria de
+                    los
+                    Angeles
+                    Gallego</option>
+                <option id="53c911ea6034534535k345th" value="Maria Lucelly Macias">Maria Lucelly
+                    Macias
+                </option>
+                <option id="53c911ea60925234234234er" value="Marlin Nallive Jimenez">Marlin Nallive
+                    Jimenez</option>
+                <option id="53c911ea609252c600632dfe" value="Nury Elena Galindo">Nury Elena Galindo
+                </option>
+                <option id="53c911ea60925sdfs4e444eg" value="Olga Serna">Olga Serna</option>
+                <option id="53c911ea6034534535k345th" value="Ruth Ochoa">Ruth Ochoa</option>
+                <option id="53c911ea60925234234234er" value="Sandra Valbuena">Sandra Valbuena
+                </option>
+                <option id="53c911ea609252c600632dfe" value="Sandra Henao">Sandra Henao</option>
+                <option id="53c911ea60925sdfs4e444eg" value="Sandra Correa">Sandra Correa</option>
+                <option id="53c911ea609252c600632dfe" value="Maria Margarita Loaiza">Maria Margarita
+                    Loaiza</option>
+
+
+
+            </datalist>
+
+           <!-- <div class="form-check form-switch" >
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Estado del Mensaje</label>
+              </div>-->
+              <select id="estado" class="form-control" style="width: 22%; border-radius: 20px; margin-top: 4%; ">
+                <option>Desactivado</option>
+        
+                <option>Activado</option>
+               
+        
+        
+              </select>
+               
+          <h5>Mensaje:</h5>  <input type="text" id="txtMsj" class="form-control" style="color: rgb(29, 141, 6);  text-align: center; font-weight: bold; font-size: large; width: 100%;" >
+          
+
+            <input type="button" value="Enviar" onclick="enviarMsj()" class="btn btn-primary" style="margin-top: 10px; ">
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.js"></script>
+      <script src="Chart.js"></script>
+    
+    <script  src="centroMensaje.js"></script>
+    <script src="plugins/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <!------------------datatable---------------->
+    <!-- datatables JS -->
+<script type="text/javascript" src="datatables/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.20/api/sum().js"></script>
+
+   <!--------------------------------------------> 
+
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+<script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+    
+</body>
+</html>

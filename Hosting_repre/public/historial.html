@@ -1,0 +1,1670 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Consultas</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="historial.css">
+
+    <!-------------------------------------firebase-------------------------------------->
+    <script defer src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+
+    <script defer src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css" />
+
+
+    <!------------------------------------------Sweet alert2------------------------->
+    <link rel="stylesheet" href="plugins/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="sweetalert2.all.min.js"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+    <!------------------------------3------------------------------------------------>
+
+    <!-------------------------------------------------------------2------------------------>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries 
+          
+     
+ -->
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
+    <!----------------------------------------------------------------------------------->
+
+
+    <!--datables CSS básico-->
+    <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css" />
+    <!--datables estilo bootstrap 4 CSS-->
+    <link rel="stylesheet" type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
+
+</head>
+
+<body>
+    <header>
+        <!--
+         <h1 class="text-center text-light">Tutorial</h1>
+         <h2 class="text-center text-light">Cómo usar <span class="badge badge-danger">DATATABLES</span></h2> 
+-->
+        <div class="login-box">
+
+            <img src="img/logo.jpg" class="avatar" alt="Avatar Image">
+
+            <h1 id="tit">Representaciones Echeverry Correa</h1>
+        </div>
+        <input type="button" class="btn btn-warning btn-lg" value="Buscar Op" id="btnConsultar" onclick="consul()">
+        <input type="number" id="consultar" placeholder="Ingrese la OP">
+
+
+        <input id="RefOp" placeholder="Referencia" class="caja" style="color: rgb(250, 253, 32); height: 40px; width: 90px; background-color:  rgba(209, 78, 26, 0.315); border-color:  rgba(209, 78, 26, 0.829);  -webkit-box-shadow: 0 10px 6px -7px rgb(119, 119, 119);
+         -moz-box-shadow: 0 10px 6px -7px rgb(247, 10, 10);   
+         box-shadow: 0 10px 6px -7px rgb(250, 7, 7);" disabled="disabled">
+        <input id="cantiOp" placeholder="Cantidad OP" class="caja" style="color: rgb(250, 253, 32); height: 40px; width: 90px; background-color:  rgba(209, 78, 26, 0.315); border-color:  rgba(209, 78, 26, 0.829);  -webkit-box-shadow: 0 10px 6px -7px rgb(119, 119, 119);
+         -moz-box-shadow: 0 10px 6px -7px rgb(247, 10, 10);   
+         box-shadow: 0 10px 6px -7px rgb(250, 7, 7);" disabled="disabled">
+
+        <input id="minTotales" placeholder="Minutos" class="caja" style="color: rgb(250, 253, 32); height: 40px; width: 90px; background-color:  rgba(209, 78, 26, 0.315); border-color:  rgba(209, 78, 26, 0.829); -webkit-box-shadow: 0 10px 6px -7px rgb(119, 119, 119);
+-moz-box-shadow: 0 10px 6px -7px rgb(247, 10, 10);   
+box-shadow: 0 10px 6px -7px rgb(250, 7, 7); " disabled="disabled">
+        <input type="button" class="btn btn-warning btn-lg" value="Imprimir" onclick="imprimirOP()" id="imprimirOP"
+            style=" -webkit-box-shadow: 0 10px 6px -7px rgb(119, 119, 119);
+         -moz-box-shadow: 0 10px 6px -7px rgb(7, 5, 5);   
+         box-shadow: 0 10px 6px -7px rgb(19, 16, 16);">
+
+
+
+    </header>
+    <div style="height:50px">
+    </div>
+
+    <!-------------------------------------------------------avance unidades-------------------------->
+    <!--
+    <label>
+      <h6> Preparación 1: <input type="number" id="unidadesrealizadas" style="width: 60px; border-radius: 20px;">
+          Tiempo Trabajado: <input type="text" id="tiemPrepa1" style="width: 90px; border-radius: 20px;">
+          % de avance: <input type="number" id="porcePrepa"
+              style="width: 60px; border-radius: 20px; color: black;">
+      </h6>
+  </label>
+
+
+  <label id="labelPrepa2" style="margin-left: 130px;">
+      <h6> Preparación 2: <input type="number" id="unidadesrealizadas2"
+              style="width: 60px; border-radius: 20px; ">
+          Tiempo Trabajado: <input type="text" id="tiemPrepa2" style="width: 90px; border-radius: 20px;">
+          % de avance: <input type="number" id="porcePrepa2"
+              style="width: 60px; border-radius: 20px; color: black;">
+      </h6>
+  </label> <br><br>
+
+  <label id="labelEnsam1">
+      <h6> Ensamble 1: <input type="number" id="unidadesrealizadas3" style="width: 60px; border-radius: 20px; ">
+          Tiempo Trabajado: <input type="text" id="tiemEnsam1" style="width: 90px; border-radius: 20px;">
+          % de avance: <input type="number" id="porceEnsam1"
+              style="width: 60px; border-radius: 20px; color: black;">
+      </h6>
+  </label>
+
+  <label id="labelEnsam2" style="margin-left: 130px;">
+      <h6> Ensamble 2: <input type="number" id="unidadesrealizadas4" style="width: 60px; border-radius: 20px; ">
+          Tiempo Trabajado: <input type="text" id="tiemEnsam2" style="width: 90px; border-radius: 20px;">
+          % de avance: <input type="number" id="porceEnsam2"
+              style="width: 60px; border-radius: 20px; color: black;">
+      </h6>
+  </label>
+  -->
+    <!--------------------------------------------tabla informacion op vs ref--------------------->
+
+
+    <div class="table-wrapper-scroll-y my-custom-scrollbar2" id="tablaGuia">
+        <label style="font-weight: bold; font-size: large; color: brown; margin-left: 40%;">OP y Referencias</label>
+
+        <table class="table table-bordered table-striped mb-0" id="dtVerticalScrollExample" cellspacing="0"
+            width="100%">
+            <thead>
+                <tr>
+                    <th scope="col">#OP</th>
+                    <th scope="col">Referencia</th>
+                    <th scope="col">Color</th>
+
+
+                </tr>
+            </thead>
+            <tbody id="tabla2">
+
+            </tbody>
+        </table>
+
+    </div>
+    <!--------------------------------------------tabla usuarios activos--------------------->
+    <div class="table-wrapper-scroll-y my-custom-scrollbar3" id="tablaActivos"
+        style="margin-top: 15px; margin-left: 40px; width: 500px;">
+        <label style="font-weight: bold; font-size: large; color: brown; margin-left: 40%; ">Usuarios Activos</label>
+        <table class="table table-bordered table-striped mb-0" id="dtVerticalScrollExample" cellspacing="0"
+            width="100%">
+            <thead>
+                <tr>
+                    <th scope="col">Modulo</th>
+                    <th scope="col">Operarios</th>
+                    <th scope="col">#OP</th>
+
+
+                </tr>
+            </thead>
+            <tbody id="tabla3">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-----------------------------------------tabla maquinas---------------------------->
+    <div class="table-wrapper-scroll-y my-custom-scrollbar" id="maquinasTabla" style="margin-top: -250px; position: relative; width: 600px;
+margin-left: 555px;">
+        <h4 style="margin-left: 39%; color: brown; ">Tabla Administrativa</h4>
+        <table class="table table-bordered table-striped mb-0" id="dtVerticalScrollExample" cellspacing="0"
+            width="100%">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Maquina</th>
+
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Hora Inicio</th>
+
+                    <th scope="col">Tiempo</th>
+
+
+                </tr>
+            </thead>
+            <tbody id="tablaDos">
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <!--------------------------------------------comentarios de la referencia---------->
+    <div style="text-align: center; margin-top: 2%; background: #81da96; width: 40%; border-radius: 10px; margin-left: 30%;"
+        id="espacioComen"><label
+            style="font-weight: bold; font-size: large; color: rgb(248, 10, 10)">Comentarios</label>
+        <input type="button" class="btn btn-info" value="Guardar" onclick="guardarComen()" id="comentariosHisto" style=" -webkit-box-shadow: 0 10px 6px -7px rgb(119, 119, 119);
+    -moz-box-shadow: 0 10px 6px -7px rgb(7, 5, 5);   
+    box-shadow: 0 10px 6px -7px rgb(19, 16, 16); margin-left: 3%; margin-top: 4px; position: absolute;">
+        <input type="button" class="btn btn-success" value="Actualizar" onclick="actuar()" id="actComen" style=" -webkit-box-shadow: 0 10px 6px -7px rgb(119, 119, 119);
+     -moz-box-shadow: 0 10px 6px -7px rgb(7, 5, 5);   
+     box-shadow: 0 10px 6px -7px rgb(19, 16, 16); margin-left: 28%; margin-top: 4px;">
+        <br>
+        <textarea name="textarea" id="txtTareaHistorial" rows="5" cols="62" style="margin-top: 7px;"></textarea></div>
+    <input type="button" value="consultar Comentario" onclick="ConsultarComen()" id="conComen" style="display: none;">
+
+
+
+
+    <!-----------------------------------------------------------unidades avance------------------------
+ <label>
+    <h6> Preparación 1: <input type="number" id="unidadesrealizadas" disabled="disabled" style="width: 60px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+
+        Tiempo Trabajado: <input type="text" id="tiemPrepa1" disabled="disabled" style="width: 90px; border-radius: 20px;  color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777; " onchange="SumarAutomatico(this.value);">
+
+        Tiempo Improductivo: <input type="number" id="improPre1" disabled="disabled" style="width: 60px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;" >
+
+        % de avance: <input type="number" disabled="disabled" id="porcePrepa"
+            style="width: 90px; border-radius: 20px; 
+             color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+            
+    </h6>
+</label>
+
+
+<label id="labelPrepa2" >
+    <h6> Preparación 2: <input type="number" disabled="disabled" id="unidadesrealizadas2"
+            style="width: 60px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+            -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;">
+
+        Tiempo Trabajado: <input type="text" disabled="disabled" id="tiemPrepa2" style="width: 90px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;" onchange="SumarAutomatico(this.value);">
+
+        Tiempo Improductivo: <input type="number" disabled="disabled" id="improPre2" style="width: 60px; border-radius: 20px;  color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+
+        % de avance: <input type="number" disabled="disabled" id="porcePrepa2"
+            style="width: 90px; border-radius: 20px;color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+            -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;">
+    </h6>
+</label> 
+
+<label id="labelEnsam1">
+    <h6> Ensamble 1: <input type="number" disabled="disabled" id="unidadesrealizadas3" style="width: 60px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+
+        Tiempo Trabajado: <input type="text" disabled="disabled" id="tiemEnsam1" style="width: 90px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;" onchange="SumarAutomatico(this.value); ">
+
+        Tiempo Improductivo: <input type="number" disabled="disabled" id="improEnsa1" style="width: 60px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+
+        % de avance: <input type="number" disabled="disabled" id="porceEnsam1"
+            style="width: 90px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+            -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;">
+    </h6>
+</label>
+
+<label id="labelEnsam2" >
+    <h6> Ensamble 2: <input type="number" disabled="disabled" id="unidadesrealizadas4" style="width: 60px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777; ">
+
+        Tiempo Trabajado: <input type="text" disabled="disabled" id="tiemEnsam2" style="width: 90px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;" onchange="SumarAutomatico(this.value);">
+
+        Tiempo Improductivo: <input type="number" disabled="disabled" id="improEnsa2" style="width: 60px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+
+        % de avance: <input type="number" disabled="disabled" id="porceEnsam2"
+            style="width: 90px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+            -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;">
+    </h6>
+</label>
+
+<label id="labelTermi1">
+    <h6> Terminación 1: <input type="number" disabled="disabled" id="unidadesrealizadas5" style="width: 60px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+
+        Tiempo Trabajado: <input type="text" disabled="disabled" id="tiemTermi1" style="width: 90px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;" onchange="SumarAutomatico(this.value);">
+
+        Tiempo Improductivo: <input type="number" disabled="disabled" id="improTermi1" style="width: 60px; border-radius: 20px;  color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+
+        % de avance: <input type="number" disabled="disabled" id="porceTermi1"
+            style="width: 90px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold;background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+            -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;">
+    </h6>
+</label>
+
+<label id="labelTermi2" >
+    <h6> Terminación 2: <input type="number" disabled="disabled" id="unidadesrealizadas6" style="width: 60px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+
+        Tiempo Trabajado: <input type="text" disabled="disabled" id="tiemTermi2" style="width: 90px; border-radius: 20px;  color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;" onchange="SumarAutomatico(this.value);">
+
+        Tiempo Improductivo: <input type="number" disabled="disabled" id="improTermi2" style="width: 60px; border-radius: 20px;  color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+
+        % de avance: <input type="number" disabled="disabled" id="porceTermi2"
+            style="width: 90px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+            -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;">
+    </h6>
+</label><br><br>
+
+<label id="labelResumen" style="margin-left: 130px;">---->
+    <!--   <h6> Total tiempo Trabajado: <input type="number" id="tiemTotalTaba" style="width: 60px; border-radius: 20px; color: black;">-->
+    <!--   <h6>Total tiempo Trabajado: <input type="text" disabled="disabled" id="pxCamisa" style="width: 90px; border-radius: 20px;  color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+
+        Total Tiempo Improductivo: <input type="number" disabled="disabled" id="totalImpro" style="width: 60px; border-radius: 20px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;">
+
+       Min/Camisa <input type="number" id="camisaUnidad" disabled="disabled"    style="width: 90px; border-radius: 20px;  color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+       -moz-box-shadow: 0 10px 6px -6px #777;
+       box-shadow: 0 10px 6px -6px #777;">
+    </h6>
+   
+</label>-->
+    <!--------------------------sum total unidades---------->
+    <div class="container" style="margin-top: 10px;">
+        <div class="row">
+            <div class="col">
+                <input type="button" class="btn btn-primary" value="Total" onclick="sumar()" id="btnSumac" style="-webkit-box-shadow: 0 10px 6px -6px #777;
+            -moz-box-shadow: 0 10px 6px -6px #777;
+            box-shadow: 0 10px 6px -6px #777;">
+                <input type="number" id="totalbtn" disabled="disabled" style="font-family: Arial, Helvetica, sans-serif; width: 90px; border-radius: 10px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+                -moz-box-shadow: 0 10px 6px -6px #777;
+                box-shadow: 0 10px 6px -6px #777;">Uds
+                <label style="font-family: fantasy; color: rgb(248, 10, 10) ; margin-left: 1%; ">% avance:
+                    <input type="number" id="avanceProdu" disabled="disabled" style="font-family: Arial, Helvetica, sans-serif; width: 90px; border-radius: 10px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+                -moz-box-shadow: 0 10px 6px -6px #777;
+                box-shadow: 0 10px 6px -6px #777;"></label>
+                <label style="font-family: fantasy; color: rgb(248, 10, 10) ; margin-left: 1%; ">Tiempo Laborado:
+                    <input type="number" id="sumaTiempoTra" disabled="disabled" style="font-family: Arial, Helvetica, sans-serif; width: 90px; border-radius: 10px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+                -moz-box-shadow: 0 10px 6px -6px #777;
+                box-shadow: 0 10px 6px -6px #777;"></label>min
+
+                <label style="font-family: fantasy; color: rgb(248, 10, 10) ; margin-left: 1%; ">Total Tiempo: <input
+                        type="number" id="TotalTiempoModulos" disabled="disabled" style="font-family: Arial, Helvetica, sans-serif; width: 90px; border-radius: 10px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;"></label>min
+                <label style="font-family: fantasy; color: rgb(248, 10, 10) ; margin-left: 1%; ">Porcentaje Promedio:
+                    <input type="number" id="porcenPromedioRendi" disabled="disabled" style="font-family: Arial, Helvetica, sans-serif; width: 90px; border-radius: 10px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+                    -moz-box-shadow: 0 10px 6px -6px #777;
+                    box-shadow: 0 10px 6px -6px #777;"></label>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!----------------------------------------------------------------------------------->
+    <!------------------------------------------------------------------------------------------------------->
+    <input type="text" placeholder="usuario" id="consultarUsu" style="display: none;">
+
+    <!--Ejemplo tabla con DataTables-->
+    <div class="container" style="margin-top: 10px; width: 100%;" id="tablaOpes">
+        <div class="row">
+            <div class="col-lg-14">
+                <div class="table-responsive">
+                    <table id="example" class="table table-striped table-bordered"
+                        style="width:100%; border-color: rgb(255, 51, 0); border-width: 2px; border-style: ridge; ">
+                        <thead>
+                            <tr>
+
+
+                                <th>Modulo</th>
+                                <th>Integrantes</th>
+                                <th>Hora Inicio</th>
+                                <th>Hora Final</th>
+                                <th>Operaciones</th>
+                                <th>Tiempo total STD</th>
+                                <th>Color</th>
+                                <th>Tiquetes</th>
+
+                                <th>Talla y Lote</th>
+
+                                <th>Cantidad Elaborada</th>
+
+                                <th>Tiempo trabajado</th>
+                                <th>Total Tiempo</th>
+                                <th>Pausas</th>
+                                <th>Rendimiento</th>
+
+
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody id="tabla">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="button" class="btn btn-warning btn-lg" style="margin-left: 25%;" value="Buscar Fecha" id="btnBusFech"
+        onclick="consulFech()">
+    <input type="date" id="fechaConsultar" style="width: 150px;">
+    <input type="date" id="fechaHasta" style="width: 150px; display: none;">
+    <input type="button" class="btn btn-warning btn-lg" value="Consultar" style="margin-left: 40px; display: none;" id="btnBusFech"
+        onclick="buscarXref()" >
+    <input type="text" placeholder="Referencia" id="datoRefconsul"
+        style="font-family: Arial, Helvetica, sans-serif; display: none; width: 90px; border-radius: 10px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson;">
+    <input type="text" placeholder="Modulo" id="datoModuConsul"
+        style="font-family: Arial, Helvetica, sans-serif; display: none; width: 200px; border-radius: 10px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; "
+        autocomplete="on" list="listadoNomb">
+    <datalist id="listadoNomb">
+        <option id="53c911ea6092c52c600632dfe" value="Apoyo preparacion 1">Apoyo preparacion 1
+        </option>
+        <option id="53c911ea6092c52c600632dfe" value="Apoyo preparacion 2">Apoyo preparacion 2
+        </option>
+        <option id="53c911ea6092c52c600632dfe" value="Apoyo ensamble 1">Apoyo ensamble 1
+        </option>
+        <option id="53c911ea6092c52c600632dfe" value="Apoyo ensamble 2">Apoyo ensamble 2
+        </option>
+        <option id="53c911ea6092c52c600632dfe" value="Ruedo 1">Ruedo 1
+        </option>
+        <option id="53c911ea6092c52c600632dfe" value="Ruedo 2">Ruedo 2
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Preparación 1">Preparación 1
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Preparación 2">Preparación 2
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Preparación 3">Preparación 3
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Preparación 4">Preparación 4
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Integracion 1">Integracion 1
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Integracion 2">Integracion 2
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Integracion 3">Integracion 3
+        </option>
+
+        <option id="53c911ea609252c600632dfe" value="Ensamble 1">Ensamble 1
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Ensamble 2">Ensamble 2
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Terminación 1">Terminación 1
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Terminación 2">Terminación 2
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Terminación 3">Terminación 3
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Terminación 4">Terminación 4
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Pulida y Revisada 1">Pulida y Revisada 1
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Pulida y Revisada 2">Pulida y Revisada 2
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Pulida y Revisada 3">Pulida y Revisada 3
+        </option>
+
+        <option id="53c911ea609252c600632dfe" value="Alba Ines Roman">Alba Ines Roman
+        </option>
+        <option id="53c911ea60925sdfs4e444eg" value="Astrid Liliana Sanchez">Astrid Liliana
+            Sanchez</option>
+        <option id="53c911ea6034534535k345th" value="Aurelio Mesa">Aurelio Mesa</option>
+        <option id="53c911ea60925234234234er" value="Blanca Jaramillo">Blanca Jaramillo
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Claudia Lopera">Claudia Lopera</option>
+        <option id="53c911ea60925sdfs4e444eg" value="Claudia Zapata">Claudia Zapata</option>
+        <option id="53c911ea6034534535k345th" value="Cristina Cataño">Cristina Cataño
+        </option>
+        <option id="53c911ea60925234234234er" value="Cristian Carvajal">Cristian Carvajal
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Dina David">Dina David</option>
+        <option id="53c911ea60925sdfs4e444eg" value="Deisy Castañeda">Deisy Castañeda
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Dora Isabel Munera">Dora Isabel Munera
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Dora Esperanza Parra">Dora Esperanza
+            Parra
+        </option>
+
+        <option id="53c911ea609252c600632dfe" value="Esneida Garcia">Esneida Garcia</option>
+        <option id="53c911ea60925sdfs4e444eg" value="Geraldine Diaz">Geraldine Diaz</option>
+        <option id="53c911ea6034534535k345th" value="Gloria Ofelia Saldarriaga">Gloria
+            Ofelia
+            Saldarriaga
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Hercilia Vega">Hercilia Vega</option>
+        <option id="53c911ea60925sdfs4e444eg" value="Isabel Ruiz">Isabel Ruiz</option>
+        <option id="53c911ea6034534535k345th" value="Ledia Garcia">Ledia Garcia</option>
+        <option id="53c911ea60925234234234er" value="Leidy Tatiana Villada">Leidy Tatiana
+            Villada</option>
+        <option id="53c911ea609252c600632dfe" value="Luz Arelis Palacios">Luz Arelis
+            Palacios
+        </option>
+        <option id="53c911ea60925sdfs4e444eg" value="Luz Aide Arango">Luz Aide Arango
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Luz Elena Zapata">Luz Elena Zapata
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Luz Mery Moreno">Luz Mery Moreno
+        </option>
+
+        <option id="53c911ea609252c600632dfe" value="Luz Nady Holguin">Luz Nady Holguin
+        </option>
+        <option id="53c911ea60925sdfs4e444eg" value="Maria de los Angeles Gallego">Maria de
+            los
+            Angeles
+            Gallego</option>
+        <option id="53c911ea6034534535k345th" value="Maria Lucelly Macias">Maria Lucelly
+            Macias
+        </option>
+        <option id="53c911ea60925234234234er" value="Marlin Nallive Jimenez">Marlin Nallive
+            Jimenez</option>
+        <option id="53c911ea609252c600632dfe" value="Nury Elena Galindo">Nury Elena Galindo
+        </option>
+        <option id="53c911ea60925sdfs4e444eg" value="Olga Serna">Olga Serna</option>
+        <option id="53c911ea6034534535k345th" value="Ruth Ochoa">Ruth Ochoa</option>
+        <option id="53c911ea60925234234234er" value="Sandra Valbuena">Sandra Valbuena
+        </option>
+        <option id="53c911ea609252c600632dfe" value="Sandra Henao">Sandra Henao</option>
+        <option id="53c911ea60925sdfs4e444eg" value="Sandra Correa">Sandra Correa</option>
+        <option id="53c911ea609252c600632dfe" value="Maria Margarita Loaiza">Maria Margarita
+            Loaiza</option>
+
+
+
+    </datalist>
+
+    <div class="container" style="margin-top: 10px;">
+        <div class="row">
+            <div class="col">
+                <input type="button" value="prueba" onclick="horaBtn()" id="pruebaXhora" style="display: none;">
+                <input type="button" class="btn btn-primary" value="Total" onclick="sumarFech()" id="btnSumacFech"
+                    style="-webkit-box-shadow: 0 10px 6px -6px #777;
+                -moz-box-shadow: 0 10px 6px -6px #777;
+                box-shadow: 0 10px 6px -6px #777;">
+                <input type="number" id="totalbtnFech" disabled="disabled" style="font-family: Arial, Helvetica, sans-serif; width: 90px; border-radius: 10px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+                    -moz-box-shadow: 0 10px 6px -6px #777;
+                    box-shadow: 0 10px 6px -6px #777;">Uds
+                     <input type="number" id="udsXhr" disabled="disabled" style="font-family: Arial, Helvetica, sans-serif; width: 90px; border-radius: 10px; color: rgb(248, 10, 10); font-weight: bold; background-color: rgb(253, 249, 10); border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+                     -moz-box-shadow: 0 10px 6px -6px #777;
+                     box-shadow: 0 10px 6px -6px #777;">Uds/hr
+                <label style="font-family: fantasy; color: rgb(248, 10, 10) ; margin-left: 1%; ">Tiempo Laborado:
+                    <input type="number" id="sumaTiempoTraFech" disabled="disabled" style="font-family: Arial, Helvetica, sans-serif; width: 90px; border-radius: 10px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+                    -moz-box-shadow: 0 10px 6px -6px #777;
+                    box-shadow: 0 10px 6px -6px #777;"></label>min
+
+                <label style="font-family: fantasy; color: rgb(248, 10, 10) ; margin-left: 1%; ">Total Tiempo: <input
+                        type="number" id="TotalTiempoModulosFech" disabled="disabled" style="font-family: Arial, Helvetica, sans-serif; width: 90px; border-radius: 10px; color: rgb(248, 10, 10); font-weight: bold; background-color: #ffff; border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;"></label>min
+
+
+                <label style="font-family: fantasy; color: rgb(248, 10, 10) ; margin-left: 1%; ">Buenas: 
+                    
+                    <input type="number" id="unidadesbuenas" disabled="disabled" style="font-family: Arial, Helvetica, sans-serif; width: 90px; border-radius: 10px; font-weight: bold; background-color: rgb(112, 228, 17); border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+-moz-box-shadow: 0 10px 6px -6px #777;
+box-shadow: 0 10px 6px -6px #777; color: rgb(252, 11, 11); text-align: center;"></label>
+
+<label style="font-family: fantasy; color: rgb(248, 10, 10) ; margin-left: 1%; ">Malas: 
+
+<input type="number" id="unidadesMalas" disabled="disabled" style="font-family: Arial, Helvetica, sans-serif; width: 90px; border-radius: 10px; font-weight: bold; background-color: rgb(240, 54, 29); border-style: ridge; border-color: crimson; -webkit-box-shadow: 0 10px 6px -6px #777;
+-moz-box-shadow: 0 10px 6px -6px #777;
+box-shadow: 0 10px 6px -6px #777; color: rgb(252, 236, 14); text-align: center;"></label>
+
+<a href="javascript:ventanaSecundaria('descripcion.html')" style="position: absolute; margin-left: 3px;">Detallado_Malas</a>
+
+
+
+
+
+
+                </button>
+            </div>
+        </div>
+    </div>
+    <!---------------------------tabla para fechas------------------------->
+
+    <!--Ejemplo tabla con DataTables-->
+    <div class="container" style="margin-top: 10px; width: 90%; margin-left: 5%; margin-right: 2%; ">
+        <div class="row">
+            <div class="col-lg-14">
+                <div class="table-responsive">
+                    <input id="searchTerm" type="text" onkeyup="doSearch()" style="display: none;" />
+                    <table id="regTable" class="table table-striped table-bordered"
+                        style="width:100%; border-color: rgb(255, 51, 0); border-width: 2px; border-style: ridge; ">
+                        <thead>
+                            <tr>
+
+
+                                <th>Modulo</th>
+                                <th>Integrantes</th>
+                                <th>Hora Inicio</th>
+                                <th>Hora Final</th>
+                                <th>#OP</th>
+                                <th>Referencia</th>
+
+                                <th>Operaciones</th>
+                                <th>Color</th>
+                                <th>Numeracion</th>
+                                <th>Talla-Lote</th>
+
+
+                                <th>Buenas</th>
+
+                                <th>Malas</th>
+
+                                <th>Cantidad Elaborada</th>
+                                <th>Reprocesos</th>
+
+                                <th>Tiempo trabajado</th>
+                                <th>Total Tiempo Modulo</th>
+                                <th>Pausas</th>
+                                <th>Anotaciones</th>
+
+
+
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody id="tablaFechas">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--------------------------------TABLA X REFERENCIA-------------------------------------->
+    <!--Ejemplo tabla con DataTables-->
+    <div class="container" style="margin-top: 10px; width: 100%; display: none;">
+        <div class="row">
+            <div class="col-lg-14">
+                <div class="table-responsive">
+                    <input id="searchTerm" type="text" onkeyup="doSearch()" style="display: none;" />
+                    <table id="regTable2" class="table table-striped table-bordered"
+                        style="width:100%; border-color: rgb(255, 51, 0); border-width: 2px; border-style: ridge; ">
+                        <thead>
+                            <tr>
+
+
+                                <th>Modulo</th>
+                                <th>Integrantes</th>
+                                <th>Hora Inicio</th>
+                                <th>Hora Final</th>
+                                <th>#OP</th>
+                                <th>Referencia</th>
+
+                                <th>Operaciones</th>
+                                <th>Buenas</th>
+
+                                <th>Malas</th>
+
+                                <th>Cantidad Elaborada</th>
+                                <th>Reprocesos</th>
+
+                                <th>Tiempo trabajado</th>
+                                <th>Total Tiempo Modulo</th>
+                                <th>Pausas</th>
+                                <th>Anotaciones</th>
+
+
+
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody id="tablaXref">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!------------------------------------------------------------------------------------------>
+
+<!------------------------------------------tabla sin terminac------------------->
+
+<input type="button" class="btn btn-warning btn-lg" style="margin-left: 25%; display: none;" value="Buscar Fecha" id="btnBusFech2"
+onclick="consulFech2()">
+<input type="date" id="fechaConsultar2" style="width: 150px; display: none;">
+
+<!--Ejemplo tabla con DataTables-->
+<div class="container" style="margin-top: 10px; width: 100%; display: none;" id="tablaOpes">
+    <div class="row">
+        <div class="col-lg-14">
+            <div class="table-responsive">
+                <table id="exampleSin" class="table table-striped table-bordered"
+                    style="width:100%; border-color: rgb(255, 51, 0); border-width: 2px; border-style: ridge; ">
+                    <thead>
+                        <tr>
+
+
+                            <th>Modulo</th>
+                            <th>Integrantes</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Final</th>
+                            <th>OP</th>
+                            <th>Ref</th>
+                            <th>Operaciones</th>
+                            <th>Color</th>
+                            <th>Numeracion</th>
+
+                            <th>Talla y Lote</th>
+
+                            <th>Cantidad Elaborada</th>
+
+                            <th>Tiempo trabajado</th>
+                            <th>Total Tiempo</th>
+                            <th>Pausas</th>
+
+
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody id="tabla2">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            
+
+                    </tbody>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!--Ejemplo tabla con HTML-->
+    <!--<div style="height:50px"></div> 
+    <div class="container">
+    <h3>Tabla con <span class="badge badge-secondary">HTML puro</span></h3>
+    <div class="row">
+            <div class="col-lg-12">
+                <table border=1 cellpadding=1>
+                    <thead>
+                        <th>Nombre</th>
+                        <th>País</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Juan Perez</td>
+                            <td>Argentina</td>
+                        </tr>
+                        <tr>
+                            <td>María Pía</td>
+                            <td>Venezuela</td>
+                        </tr>
+                        <tr>
+                            <td>Juan Caros</td>
+                            <td>Perú</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+    </div>    -->
+
+
+    <!--Ejemplo tabla con bootstrap 4-->
+    <!--<div style="height:50px"></div>               
+    <div class="container">
+    <h3>Tabla con <span class="badge badge-secondary">BOOTSTRAP 4</span></h3>
+    <div class="row">
+            <div class="col-lg-12">                    
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <th>Nombre</th>
+                        <th>País</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Juan Perez</td>
+                            <td>Argentina</td>
+                        </tr>
+                        <tr>
+                            <td>María Pía</td>
+                            <td>Venezuela</td>
+                        </tr>
+                        <tr>
+                            <td>Juan Caros</td>
+                            <td>Perú</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+    </div>-->
+
+    <!-- jQuery, Popper.js, Bootstrap JS -->
+    <script src="jquery/jquery-3.3.1.min.js"></script>
+    <script src="popper/popper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+
+
+    <!-- datatables JS -->
+    <script type="text/javascript" src="datatables/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.20/api/sum().js"></script>
+
+
+   <script type="text/javascript" src="historial.js"></script>
+  <!-- <script text="text/javascript" src="historial.js"></script>-->
+
+    <script src="plugins/sweetalert2/sweetalert2.all.min.js"></script>
+
+
+
+
+</body>
+
+</html>

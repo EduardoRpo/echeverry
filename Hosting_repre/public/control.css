@@ -1,0 +1,170 @@
+/*html,
+body{
+    height: 100%;
+}
+body{
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: black;
+    color: white;
+}
+.form-signin{
+    width: 100%;
+    max-width: 360px;
+    padding: 15px;
+    margin: auto;
+
+}
+.form-signin .checkbox{
+font-weight: 400;
+}
+
+.form-signin .form-control{
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus{
+    z-index: 2;
+}
+
+.form-signin input[input="email"]{
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.form-signin input[type="password"]{
+    margin-bottom: 10px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}*/
+
+
+body{
+
+    background-color: #D4EDDA;
+
+    margin: 0;
+    padding: 0;
+}
+
+header{
+
+    background-color: teal;
+
+}
+.info{
+    margin-top: 15px;
+}
+#CardHisto{
+
+    margin: 1.5%;
+    
+}
+.my-custom-scrollbar2 {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+    }
+.my-custom-scrollbar {
+    margin: auto;
+    width: 90%;
+    margin-top: 10px;
+    position: relative;
+    height: 500px;
+    overflow: auto;
+    }
+    .table-wrapper-scroll-y {
+        background: #81da96;
+    display: block;
+    border-radius: 10px;
+    
+    }
+    ::placeholder { color: rgb(72, 255, 0); }
+
+    #dtVerticalScrollExample{
+    }
+
+#inTTP{
+    margin-top: 1%;
+    width: 8%;
+}
+#RefOp{
+    /*margin-left: 1%;*/
+}
+#porcenTiempo{
+    background: rgb(245, 5, 5);
+    color: rgb(241, 245, 22);
+    
+    border-radius: 200%;
+    margin-left: 10%;
+    
+    width: 5%;
+}
+#porcenRecubri{
+    background: rgb(245, 5, 5);
+    color: rgb(241, 245, 22);
+    
+    border-radius: 200%;
+    
+    width: 5%;
+
+}
+.circulo{
+
+    background: rgb(245, 5, 5);
+    color: rgb(241, 245, 22);
+    
+    border-radius: 200%;
+    
+    width: 5%;
+
+
+}
+.caja{
+    width: 8%;
+}
+#porcenBotonadora{
+    background: rgb(245, 5, 5);
+    color: rgb(241, 245, 22);
+    
+    border-radius: 200%;
+    
+    width: 5%;
+
+/*background-color: rgba(88, 243, 50, 0.993);*/
+}
+#tit{
+    margin-left: 35%;
+    font-size: 350%;
+    margin-bottom: 2%;
+    font-family: Comic ;
+    color: #fff;
+}
+#linea1{
+    background: #000;
+    height: 25px;
+}
+#consultarCedu{
+
+    
+}
+
+#buscaCedu{
+    border-radius: 20px;
+    
+}
+
+#busqueda{
+
+    margin: auto;
+    margin-left: 10%;
+}

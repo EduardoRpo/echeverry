@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento</title>
+    <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <!--<script src="jquery-3.5.1.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+   
+
+
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries 
+          
+     
+ -->
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.65/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.65/vfs_fonts.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="control.css">
+
+
+</head>
+<header>
+
+    <h1 id="tit">Control Seguimiento</h1>
+
+    <div id="busqueda">
+        <input type="number" id="buscaCedu" placeholder="Ingrese OP">
+        <input type="button" class="btn btn-warning btn-lg" value="Consultar" onclick="Consultar()" id="consultarCedu">
+
+    </div>
+</header>
+
+<body>
+
+    <div class="info">
+
+        Recubridora:<input id="inR" placeholder="Tiempo Recubridora" class="caja"><input id="porcenRecubri">
+
+        Botonadora:<input id="inB" placeholder="Tiempo Botonadora" class="caja"><input id="porcenBotonadora">
+        Manualiades:<input id="inMT" placeholder="Tiempo Manualidades" class="caja"><input id="porcenManuali"
+            class="circulo">
+
+        <input id="RefOp" placeholder="Referencia" class="caja">
+        <input id="cantiOp" placeholder="Cantidad OP" class="caja">
+    </div>
+
+
+    <div class="info">
+        Plana:<input id="inP" placeholder="Tiempo Plana" class="caja"><input id="porcenP1A" class="circulo">
+        RR2A:<input id="inRR2" placeholder="Tiempo RR2A" class="caja"><input id="porcenRR2A" class="circulo">
+        RR3A:<input id="inRR3" placeholder="Tiempo RR3A" class="caja"><input id="porcenRR3A" class="circulo">
+    </div>
+
+    <div class="info">
+        F.C.P.S:<input id="inFCPS" placeholder="Tiempo F.C.P.S" class="caja"><input id="porcenFCPS" class="circulo">
+        F.S.P.S:<input id="inFSPS" placeholder="Tiempo F.S.P.S" class="caja"><input id="porcenFSPS" class="circulo">
+        Ojaladora:<input id="inO" placeholder="Tiempo Ojaladora" class="caja"><input id="porcenO" class="circulo">
+    </div>
+
+    <div class="info">
+        S2A:<input id="inS2A" placeholder="Tiempo S2A" class="caja"><input id="porcenS2A" class="circulo">
+        S3A:<input id="inS3A" placeholder="Tiempo S3A" class="caja"><input id="porcenS3A" class="circulo">
+        P.E:<input id="inPE" placeholder="Tiempo P.E" class="caja"><input id="porcenPE" class="circulo">
+    </div>
+    Tiempo Total Trabajado: <input id="inTTP" placeholder="Tiempo Total">
+
+
+    Promedio Tiempo por Camisa: <input id="inPromedio" placeholder="Promedio P/camisa">
+
+    <input id="porcenTiempo">
+
+
+    <div id="linea1">
+
+    </div>
+
+    <div id="indicadores2">
+
+        <input id="porcenRecu" placeholder="% Unidades Recubridora" style="display: none;">
+        <input id="porcenBoto" placeholder="% Unidades Botonadora" style="display: none;">
+        <input id="porcenManu" placeholder="% Unidades Manualidades" style="display: none;">
+
+        <input id="porcenPlana" placeholder="% Unidades Plana" style="display: none;">
+        <input id="porcenRR2A" placeholder="% Unidades RR2A" style="display: none;">
+        <input id="porcenRR3A " placeholder="% Unidades RR3A" style="display: none;">
+
+        <input id="porcenFcps" placeholder="% Unidades F.C.P.S" style="display: none;">
+        <input id="porcenFsps" placeholder="% Unidades F.S.P.S" style="display: none;">
+        <input id="porcenOjala" placeholder="% Unidades Ojaladora" style="display: none;">
+
+
+
+        <input id="porcenS2A" placeholder="% Unidades S2A" style="display: none;">
+        <input id="porcenS3A" placeholder="% Unidades S3A" style="display: none;">
+        <input id="porcenPE" placeholder="% Unidades P.E" style="display: none;">
+
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <h4 style="margin-left: 39%; color: brown; ">Tabla Producción</h4>
+
+
+            <table class="table table-bordered table-striped mb-0" id="dtVerticalScrollExample" cellspacing="0"
+                width="100%">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Hora Inicio</th>
+
+                        <th scope="col">Maquina</th>
+
+                        <th scope="col">Operacion</th>
+                        <th scope="col">Tiempo STD</th>
+
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Tiempo</th>
+
+                        <th scope="col">Rendimiento</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla">
+
+                </tbody>
+            </table>
+
+        </div>
+        <hr><hr>
+
+
+        <!-----------------------------------------tabla maquinas---------------------------->
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-top: 50px;">
+            <h4 style="margin-left: 39%; color: brown; ">Tabla Administrativa</h4>
+            <table class="table table-bordered table-striped mb-0" id="dtVerticalScrollExample" cellspacing="0"
+                width="100%">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Maquina</th>
+
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Hora Inicio</th>
+
+                        <th scope="col">Tiempo</th>
+
+                       
+                    </tr>
+                </thead>
+                <tbody id="tablaDos">
+
+                </tbody>
+            </table>
+
+        </div>
+
+        <!----------------------------------------------------------------------------------->
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+   
+    <script src="control.js"></script>
+
+</body>
+
+</html>

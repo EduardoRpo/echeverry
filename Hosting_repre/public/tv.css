@@ -1,0 +1,19 @@
+.avatar {
+    width: 10%;
+    height: 90%;
+    border-radius: 10%;
+    position: absolute;
+    margin-left: 1%;
+   /* top: 1%;*/
+   /* left: calc(50% - 50px);*/
+    border-style: ridge;
+    border-color: #41eb16;
+    
+  }
+
+  .verde{
+    background-color: #41eb16;
+    
+  }
+
+  

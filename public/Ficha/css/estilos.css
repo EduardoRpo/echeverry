@@ -1,0 +1,42 @@
+.fas {
+	cursor: move;
+}
+.caja{
+	background-color: #D4EDDA;
+		border-radius: 20px;
+
+				width: 9%;
+				height: 25px;
+}
+.caja1{
+	background-color: #D4EDDA;
+		border-radius: 20px;
+
+				width: 11%;
+				height: 25px;
+}
+
+.comen{
+	background-color: rgb(185, 240, 83);
+	width: 50%;
+	margin-left: 30px;
+	height: 18px;
+
+}
+.parametro{
+	background-color: #D4EDDA;
+	border-radius: 20px;
+	width: 26%;
+	height: 25px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid rgb(204, 204, 204);
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}

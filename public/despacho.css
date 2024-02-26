@@ -1,0 +1,15 @@
+.info{
+   
+}
+input{
+    width: 100%;
+    border-style: ridge;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 5px;
+    color: crimson; font-weight: bold;
+
+}
+p{
+    color: crimson; font-weight: bold;
+}

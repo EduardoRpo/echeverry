@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orden de Produccion</title>
+    <link rel="shortcut icon" href="img/logo.jpg" type="image/x-icon">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!--<script src="jquery-3.5.1.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!--datables CSS básico-->
+<link rel="stylesheet" type="text/css" href="datatables/datatables.min.css" />
+<!--datables estilo bootstrap 4 CSS-->
+<link rel="stylesheet" type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
+
+
+
+	
+
+
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries 
+          
+     
+ -->
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
+
+<!------alertify---->
+<link href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/alertify.min.css" rel="stylesheet"/>
+
+<!------------------>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.65/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.65/vfs_fonts.js"></script>
+	
+
+	<link rel="stylesheet" type="text/css" href="op.css">
+
+
+</head>
+<header>
+
+    <h1 id="tit">Ordenes de Produccion</h1>
+
+   
+<div id="Divbotones" >
+
+    
+    <input type="button" class="btn btn-warning btn-lg" value="Registrar" onclick="RegistrarOP()" id="registrarOP">           
+    <input type="button" class="btn btn-primary btn-lg" value="Consultar" onclick="consultarOP()" id="consultarOP">           
+    <input type="button" class="btn btn-success btn-lg" value="Actualizar" onclick="actualizarOP()" id="actualizarOP" style="position: absolute; margin-left: 46%; margin-top: -55px;">           
+    <input type="button" class="btn btn-danger btn-lg" value="Borrar" onclick="eliminarOP()" id="EliminarOP" style="position: absolute; margin-left: 56%; margin-top: -55px;"> 
+    <input type="button" class="btn btn-secondary btn-lg" value="Imprimir" onclick="imprimirOP()" id="imprimirOP" style="position: absolute; margin-left: 65%; margin-top: -55px; ">  
+    
+    <input type="button" class="btn btn-warning btn-lg" value="Seguimiento" onclick="Seguimiento()" id="seguimiento" style="display: none;">    
+
+</div>
+       
+
+          
+
+
+
+
+</header>
+<body>
+
+    <select id="resulEstado" class="form-control" style="width: 12%; border-radius: 20px; position: relative; margin-top: -4%; margin-left: 5%;">
+        <option>Espera</option>
+
+        <option>En Proceso</option>
+        <option>Culminado</option>
+        <option>Devuelta</option>
+
+
+      </select>
+      <input type="number" placeholder="Semana" id="semana" style="float: right; margin-right: 5%; width: 100px; color: rgb(231, 24, 24); font-weight: bold; margin-top: -2%;" class="form-control">
+      <input type="button" class="btn btn-danger" value="Despacho" onclick="despacho()" style="float: right; margin-top: -2%; margin-right: 5px;">
+
+
+    <form action="">
+
+        <div id="contenido">
+            <label id="Titulito">#OP:</label>
+                <input  type="number" id="orden" class="cajaOP"  placeholder="Orden #" >
+            
+                <label id="Titulito">Referencia:</label>
+            
+                <input  type="text" id="ref" class="cajaOP"  placeholder="Referencia" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+            
+                <label id="Titulito">Cliente:</label>
+            
+                <input  type="text" id="cliente" class="cajaOP"  placeholder="Cliente" list="clienteList"  onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()">
+            
+                <datalist id="clienteList">
+                    <option id="53c911ea609252c600632dfe" value="MARMOL">MARMOL</option>
+            
+                    <option id="53c911ea609252c600632dfe" value="ALPES">ALPES</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="RUFFOS">RUFFOS</option>
+                    <option id="53c911ea6034534535k345th" value="ST.EVEN">ST.EVEN</option>
+                    <option id="53c911ea60925234234234er" value="MUESTRAS Y COTIZACIONES">MUESTRAS Y COTIZACIONES</option>
+                    <option id="53c911ea609252c600632dfe" value="C.I.ALFA INGENIERIA">C.I.ALFA INGENIERIA</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="C.I. UNIROCA">C.I. UNIROCA</option>
+                    <option id="53c911ea6034534535k345th" value="AUDAX">AUDAX </option>
+                    <option id="53c911ea60925234234234er" value="ALMARTEX">ALMARTEX</option>
+                    <option id="53c911ea609252c600632dfe" value="DECONTEX">DECONTEX</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="FIORY">FIORY</option>
+                    <option id="53c911ea609252c600632dfe" value="GOCO">GOCO</option>
+            
+                    <option id="53c911ea6034534535k345th" value="AIRES DE MODA">AIRES DE MODA </option>
+                    <option id="53c911ea60925234234234er" value="COMUSA">COMUSA</option>
+                    <option id="53c911ea609252c600632dfe" value="WA S.A">WA S.A</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="G&G">G&G</option>
+                    <option id="53c911ea609252c600632dfe" value="T.S.FACTORY">T.S.FACTORY</option>
+                    <option id="53c911ea609252c600632dfe" value="TENDEX">TENDEX</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="BHK">BHK</option>
+                    <option id="53c911ea609252c600632dfe" value="SPELL S.A.S">SPELL S.A.S</option>
+            
+                </datalist>
+                <label id="Titulito">F.Ingreso:</label>
+            
+                <input  type="text" id="fi" class="cajaOP"  placeholder="Fecha Ingreso" >
+            
+                <label id="Titulito">Lote:</label>
+            
+                <input  type="text" id="lote" class="cajaOP"  placeholder="Lote" >
+            
+              </div>
+            
+              
+              <div id="contenido2">
+            
+                <label id="Titulito">Tallas:</label>
+            
+                <input  type="text" id="tallas" class="cajaOP"  placeholder="Tallas" >
+            
+                <label id="Titulito">Tipo:</label>
+            
+                <input  type="text" id="tipo" class="cajaOP2"  placeholder="Tipo" list="TIPOCAMI">
+            
+                <datalist id="TIPOCAMI">
+                    <option id="53c911ea609252c600632dfe" value="CP">CP</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="CR">CR</option>
+                    <option id="53c911ea6034534535k345th" value="CV">CV</option>
+                    <option id="53c911ea60925234234234er" value="B CP">B CP</option>
+                    <option id="53c911ea609252c600632dfe" value="B CR">B CR</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="B CV">B CV</option>
+                    
+                </datalist>
+            
+                
+                <label id="Titulito">Cantidad:</label>
+            
+                <input  type="text" id="canti" class="cajaOP"  placeholder="Cantidad" >
+                <label id="Titulito">Salida N°:</label>
+            
+                <input  type="text" id="salida" class="cajaOP"  placeholder="Salida" >
+            
+            
+                <br>
+                <label id="TituDescr">Descripción:</label>
+            
+                <input  type="text" id="tipo2" class="cajaOP3"  placeholder="Comentarios" >
+            
+               
+            
+            
+              </div>
+            
+              <div id="divDescrip">
+            
+                <h6> Descripcion Tallas</h6>
+            
+                1-<input  type="text" id="talla1" class="cajaOP2"  placeholder="Talla" list="listTallas" >
+            
+                <datalist id="listTallas">
+                    <option id="53c911ea609252c600632dfe" value="6">6</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="8">8</option>
+                    <option id="53c911ea6034534535k345th" value="10">10</option>
+                    <option id="53c911ea60925234234234er" value="12">12</option>
+                    <option id="53c911ea609252c600632dfe" value="14">14</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="16">16</option>
+                    <option id="53c911ea60345s4535k345th" value="XS">XS</option>
+            
+                    <option id="53c911ea6034534535k345th" value="S">S</option>
+                    <option id="53c911ea60925234234234er" value="M">M</option>
+                    <option id="53c911ea609252c600632dfe" value="L">L</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="XL">XL</option>
+                    <option id="53c911ea609252c600632dfe" value="XXL">XXL</option>
+            
+                    <option id="53c911ea6034534535k345th" value="XXXL">XXXL</option>
+            
+                </datalist>
+            
+                <input  type="number" id="cantiTa1" class="cajaOP"  placeholder="cantidad">
+                <br><br>
+                2-<input  type="text" id="talla2" class="cajaOP2"  placeholder="Talla" list="listTallas" >
+            
+                <datalist id="listTallas">
+                    <option id="53c911ea609252c600632dfe" value="6">6</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="8">8</option>
+                    <option id="53c911ea6034534535k345th" value="10">10</option>
+                    <option id="53c911ea60925234234234er" value="12">12</option>
+                    <option id="53c911ea609252c600632dfe" value="14">14</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="16">16</option>
+                    <option id="53c911ea6034534535k345th" value="S">S</option>
+                    <option id="53c911ea60925234234234er" value="M">M</option>
+                    <option id="53c911ea609252c600632dfe" value="L">L</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="XL">XL</option>
+                    <option id="53c911ea609252c600632dfe" value="XXL">XXL</option>
+            
+                    <option id="53c911ea6034534535k345th" value="XXXL">XXXL</option>
+            
+                </datalist>
+                <input  type="number" id="cantiTa2" class="cajaOP"  placeholder="cantidad">
+                <br><br>
+                3-<input  type="text" id="talla3" class="cajaOP2"  placeholder="Talla" list="listTallas" >
+            
+                <datalist id="listTallas">
+                    <option id="53c911ea609252c600632dfe" value="6">6</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="8">8</option>
+                    <option id="53c911ea6034534535k345th" value="10">10</option>
+                    <option id="53c911ea60925234234234er" value="12">12</option>
+                    <option id="53c911ea609252c600632dfe" value="14">14</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="16">16</option>
+                    <option id="53c911ea6034534535k345th" value="S">S</option>
+                    <option id="53c911ea60925234234234er" value="M">M</option>
+                    <option id="53c911ea609252c600632dfe" value="L">L</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="XL">XL</option>
+                    <option id="53c911ea609252c600632dfe" value="XXL">XXL</option>
+            
+                    <option id="53c911ea6034534535k345th" value="XXXL">XXXL</option>
+            
+                </datalist>
+                <input  type="number" id="cantiTa3" class="cajaOP"  placeholder="cantidad">
+                <br><br>
+                4-<input  type="text" id="talla4" class="cajaOP2"  placeholder="Talla" list="listTallas" >
+            
+                <datalist id="listTallas">
+                    <option id="53c911ea609252c600632dfe" value="6">6</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="8">8</option>
+                    <option id="53c911ea6034534535k345th" value="10">10</option>
+                    <option id="53c911ea60925234234234er" value="12">12</option>
+                    <option id="53c911ea609252c600632dfe" value="14">14</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="16">16</option>
+                    <option id="53c911ea6034534535k345th" value="S">S</option>
+                    <option id="53c911ea60925234234234er" value="M">M</option>
+                    <option id="53c911ea609252c600632dfe" value="L">L</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="XL">XL</option>
+                    <option id="53c911ea609252c600632dfe" value="XXL">XXL</option>
+            
+                    <option id="53c911ea6034534535k345th" value="XXXL">XXXL</option>
+            
+                </datalist>
+                <input  type="number" id="cantiTa4" class="cajaOP"  placeholder="cantidad">
+                <br><br>
+                5-<input  type="text" id="talla5" class="cajaOP2"  placeholder="Talla" list="listTallas" >
+            
+                <datalist id="listTallas">
+                    <option id="53c911ea609252c600632dfe" value="6">6</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="8">8</option>
+                    <option id="53c911ea6034534535k345th" value="10">10</option>
+                    <option id="53c911ea60925234234234er" value="12">12</option>
+                    <option id="53c911ea609252c600632dfe" value="14">14</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="16">16</option>
+                    <option id="53c911ea6034534535k345th" value="S">S</option>
+                    <option id="53c911ea60925234234234er" value="M">M</option>
+                    <option id="53c911ea609252c600632dfe" value="L">L</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="XL">XL</option>
+                    <option id="53c911ea609252c600632dfe" value="XXL">XXL</option>
+            
+                    <option id="53c911ea6034534535k345th" value="XXXL">XXXL</option>
+            
+                </datalist>
+                <input  type="number" id="cantiTa5" class="cajaOP"  placeholder="cantidad">
+                <br><br>
+                6-<input  type="text" id="talla6" class="cajaOP2"  placeholder="Talla" list="listTallas" >
+            
+                <datalist id="listTallas">
+                    <option id="53c911ea609252c600632dfe" value="6">6</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="8">8</option>
+                    <option id="53c911ea6034534535k345th" value="10">10</option>
+                    <option id="53c911ea60925234234234er" value="12">12</option>
+                    <option id="53c911ea609252c600632dfe" value="14">14</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="16">16</option>
+                    <option id="53c911ea6034534535k345th" value="S">S</option>
+                    <option id="53c911ea60925234234234er" value="M">M</option>
+                    <option id="53c911ea609252c600632dfe" value="L">L</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="XL">XL</option>
+                    <option id="53c911ea609252c600632dfe" value="XXL">XXL</option>
+            
+                    <option id="53c911ea6034534535k345th" value="XXXL">XXXL</option>
+            
+                </datalist>
+                <input  type="number" id="cantiTa6" class="cajaOP"  placeholder="cantidad">
+                <br><br>
+                7-<input  type="text" id="talla7" class="cajaOP2"  placeholder="Talla" list="listTallas" >
+            
+                <datalist id="listTallas">
+                    <option id="53c911ea609252c600632dfe" value="6">6</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="8">8</option>
+                    <option id="53c911ea6034534535k345th" value="10">10</option>
+                    <option id="53c911ea60925234234234er" value="12">12</option>
+                    <option id="53c911ea609252c600632dfe" value="14">14</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="16">16</option>
+                    <option id="53c911ea6034534535k345th" value="S">S</option>
+                    <option id="53c911ea60925234234234er" value="M">M</option>
+                    <option id="53c911ea609252c600632dfe" value="L">L</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="XL">XL</option>
+                    <option id="53c911ea609252c600632dfe" value="XXL">XXL</option>
+            
+                    <option id="53c911ea6034534535k345th" value="XXXL">XXXL</option>
+            
+                </datalist>
+                <input  type="number" id="cantiTa7" class="cajaOP"  placeholder="cantidad">
+                <br><br>
+                8-<input  type="text" id="talla8" class="cajaOP2"  placeholder="Talla" list="listTallas" >
+            
+                <datalist id="listTallas">
+                    <option id="53c911ea609252c600632dfe" value="6">6</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="8">8</option>
+                    <option id="53c911ea6034534535k345th" value="10">10</option>
+                    <option id="53c911ea60925234234234er" value="12">12</option>
+                    <option id="53c911ea609252c600632dfe" value="14">14</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="16">16</option>
+                    <option id="53c911ea6034534535k345th" value="S">S</option>
+                    <option id="53c911ea60925234234234er" value="M">M</option>
+                    <option id="53c911ea609252c600632dfe" value="L">L</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="XL">XL</option>
+                    <option id="53c911ea609252c600632dfe" value="XXL">XXL</option>
+            
+                    <option id="53c911ea6034534535k345th" value="XXXL">XXXL</option>
+            
+                </datalist>
+                <input  type="number" id="cantiTa8" class="cajaOP"  placeholder="cantidad">
+                <br><br>
+                9-<input  type="text" id="talla9" class="cajaOP2"  placeholder="Talla" list="listTallas" >
+            
+                <datalist id="listTallas">
+                    <option id="53c911ea609252c600632dfe" value="6">6</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="8">8</option>
+                    <option id="53c911ea6034534535k345th" value="10">10</option>
+                    <option id="53c911ea60925234234234er" value="12">12</option>
+                    <option id="53c911ea609252c600632dfe" value="14">14</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="16">16</option>
+                    <option id="53c911ea6034534535k345th" value="S">S</option>
+                    <option id="53c911ea60925234234234er" value="M">M</option>
+                    <option id="53c911ea609252c600632dfe" value="L">L</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="XL">XL</option>
+                    <option id="53c911ea609252c600632dfe" value="XXL">XXL</option>
+            
+                    <option id="53c911ea6034534535k345th" value="XXXL">XXXL</option>
+            
+                </datalist>
+                <input  type="number" id="cantiTa9" class="cajaOP"  placeholder="cantidad">
+                <br><br>
+               10- <input  type="text" id="talla10" class="cajaOP2"  placeholder="Talla" list="listTallas" >
+            
+               <datalist id="listTallas">
+                   <option id="53c911ea609252c600632dfe" value="6">6</option>
+                   <option id="53c911ea60925sdfs4e444eg" value="8">8</option>
+                   <option id="53c911ea6034534535k345th" value="10">10</option>
+                   <option id="53c911ea60925234234234er" value="12">12</option>
+                   <option id="53c911ea609252c600632dfe" value="14">14</option>
+                   <option id="53c911ea60925sdfs4e444eg" value="16">16</option>
+                   <option id="53c911ea6034534535k345th" value="S">S</option>
+                   <option id="53c911ea60925234234234er" value="M">M</option>
+                   <option id="53c911ea609252c600632dfe" value="L">L</option>
+                   <option id="53c911ea60925sdfs4e444eg" value="XL">XL</option>
+                   <option id="53c911ea609252c600632dfe" value="XXL">XXL</option>
+            
+                   <option id="53c911ea6034534535k345th" value="XXXL">XXXL</option>
+            
+               </datalist>
+                <input  type="number" id="cantiTa10" class="cajaOP"  placeholder="cantidad">
+                <br><br>
+               
+              </div>
+
+    </form>
+
+ 
+
+
+    
+<!-- -------------------------------------tabla-------------------------------------------------->
+<input type="text"  class="form-control" name="search" id="search" style="position: absolute; width: 160px; margin-left: 40%; border-color: rgb(241, 245, 19); border-style: ridge; border-width: 4px;" placeholder="Buscar Referencia">
+<div class="table-wrapper-scroll-y my-custom-scrollbar" style="position: absolute; margin-left: 35%; margin-top: 3%; border-color: rgb(109, 245, 19); border-style: ridge; border-width: 2.5px;">
+
+    
+
+<table class="table table-bordered table-striped mb-0" id="dtVerticalScrollExample" cellspacing="0"
+width="100%">
+    <thead>
+      <tr>
+        <th scope="col">Orden #</th>
+        <th scope="col">Referencia</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Fecha Ingreso</th>
+
+        <th scope="col">Estado</th>
+
+      </tr>
+    </thead>
+    <tbody id="tabla">
+     
+    </tbody>
+  </table>
+
+</div>
+
+<!-- --------------------------------------------------------------------------------------->
+
+
+  </div>
+
+
+
+
+
+        <!-----------alertify------>
+        <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/alertify.min.js"></script>
+
+        <!------------------------>
+
+       <!-- datatables JS -->
+       <script type="text/javascript" src="datatables/datatables.min.js"></script>
+       <script src="https://cdn.datatables.net/plug-ins/1.10.20/api/sum().js"></script>
+
+    <script src="op.js"></script>
+
+</body>
+</html>

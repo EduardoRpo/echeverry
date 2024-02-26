@@ -1,0 +1,222 @@
+*{
+    margin: 0;
+    padding: 0;
+	box-sizing: border-box;
+	padding-right: 0;
+
+}
+.navbar-toggler{
+  
+  background-color: #796767;
+}
+.container{
+ /* margin: 2% 0 10% 7%;*/
+
+}
+#conScroll{
+  height: 550px;
+  overflow: scroll;
+  margin-bottom: 20px;
+}
+.container::-webkit-scrollbar-thumb{
+  background: rgb(216, 128, 13);
+}
+::-webkit-scrollbar {display: none;}
+#carouselExampleIndicators{
+  box-shadow: 2px 2px 5px #000;
+
+}
+header{
+
+
+    background-color: teal;
+    /*width: 100px;*/
+    height: 110px;
+}
+#irProduc{
+    margin-left: 7%;
+}
+body{
+
+	
+   /* background-color: #D4EDDA;*/
+
+}
+#tit{
+    margin-left: 26%;
+    color: #fff;
+}
+#botones{
+    margin-top: 10%;
+    margin-left: 40%;
+    
+}
+#irFicha{
+    margin-left: 3%;
+}
+#irSegui{
+    margin-left: 3%;
+
+}
+#irHistorial{
+    margin-left: 5%;
+}
+.login-box .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 10%;
+    position: absolute;
+    margin-left: 1%;
+    top: 1%;
+   /* left: calc(50% - 50px);*/
+    border-style: ridge;
+    border-color: #41eb16;
+    
+  }
+  #irFicha:hover {
+    cursor: pointer;
+    background: #34da0a;
+    color: #fff;
+  }
+  #irOpPagi:hover {
+    cursor: pointer;
+    background: #34da0a;
+    color: #fff;
+  }
+  #irSeguiModu:hover {
+    cursor: pointer;
+    background: #34da0a;
+    color: #fff;
+  }
+  #irHistorial:hover {
+    cursor: pointer;
+    background: #34da0a;
+    color: #fff;
+  }
+  #irModu:hover {
+    cursor: pointer;
+    background: #34da0a;
+    color: #fff;
+  }
+  #irError:hover{
+
+    cursor: pointer;
+    background: #34da0a;
+    color: #fff;
+
+  }
+  #irtv:hover{
+
+    cursor: pointer;
+    background: #34da0a;
+    color: #fff;
+
+  }
+  #carouselExampleIndicators{
+    float: left; width: 50%;
+    margin-bottom: 2%;
+  }
+  #cardsTwos{
+   margin-top: 1%; 
+    margin-left: 10px; 
+    float: left;
+     width: 40%;
+  }
+  #card{
+    margin-bottom: 5%;
+  }
+  #card2{
+    margin-top: 10px;
+    margin-left: 5px;
+  }
+
+
+  @media screen and (max-width:992px) {
+    #carouselExampleIndicators{
+      width: 100%;
+    }
+    #cardsTwos{
+    /*  margin-top: 2%;*/
+      width: 100%;
+     /* word-wrap: break-word;*/
+    }
+    #card{
+      margin-left: 23%;
+      width: 50%;
+    /*  float: left;*/
+      height: 220px;
+      overflow: hidden;
+      font-size: small;
+      margin-bottom: 1%;
+    }
+    #card2{
+      margin-left: 23%;
+      width: 50%;
+    /*  float: left;*/
+      height: 220px;
+      overflow: hidden;
+      font-size: small;
+
+    }
+    
+  }
+  @media screen and (max-width:768px) {
+    #carouselExampleIndicators{
+      width: 100%;
+    }
+    #cardsTwos{
+      margin-top: 2%;
+      width: 100%;
+     /* word-wrap: break-word;*/
+      
+    }
+    #card{
+      margin-left: 23%;
+      width: 50%;
+    /*  float: left;*/
+      height: 220px;
+      overflow: hidden;
+      font-size: x-small;
+      margin-bottom: 1%;
+    }
+    #card2{
+      margin-left: 23%;
+      width: 50%;
+    /*  float: left;*/
+      height: 220px;
+      overflow: hidden;
+      font-size: x-small;
+
+    }
+    
+  }
+  @media screen and (max-width:417px) {
+    #carouselExampleIndicators{
+      width: 100%;
+    }
+    #cardsTwos{
+      margin-top: 2%;
+      width: 100%;
+     /* word-wrap: break-word;*/
+      
+    }
+    #card{
+      margin-left: 23%;
+      width: 50%;
+    /*  float: left;*/
+      height: 220px;
+      overflow: hidden;
+      font-size: xx-small;
+      margin-bottom: 1%;
+    }
+    #card2{
+      margin-left: 23%;
+      width: 50%;
+    /*  float: left;*/
+      height: 220px;
+      overflow: hidden;
+      font-size: x-small;
+
+    }
+    
+  }

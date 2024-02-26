@@ -1,0 +1,142 @@
+#divDescrip{
+    height: 550px;
+    /*background-color: lawngreen;*/
+
+    margin-left: 0;
+    width: 50%;
+    float: left;
+}
+.my-custom-scrollbar {
+    position: relative;
+    height: 500px;
+    overflow: auto;
+    }
+    .table-wrapper-scroll-y {
+        background: #81da96;
+    display: block;
+    border-radius: 10px;
+    
+    }
+
+#divDerecho{
+    height: 550px;
+    /*background-color: lightcoral;*/
+    float: right;
+
+    margin-right: 0;
+    width: 50%;
+}
+.cajaOP2{
+    border-radius: 20px;
+
+    width: 80px;
+    margin-left: 8px;
+    color: rgb(245, 16, 16); 
+    font-weight: bold; 
+    text-align: center;
+    
+
+}
+
+body{
+
+    background-color: #D4EDDA;
+
+    margin: 0;
+    padding: 0;
+}
+
+#TituOrden{
+  
+}
+
+header{
+
+    background-color: teal;
+
+}
+#tit{
+    margin-left: 27%;
+    font-size: 350%;
+    margin-bottom: 2%;
+    font-family: Comic ;
+    color: #fff;
+}
+#registrarOP{
+    margin-left: 25%;
+    margin-bottom: 8px;
+}
+#consultarOP{
+    margin-left: 1.5%;
+    margin-bottom: 8px;
+
+}
+#seguimiento{
+    margin-left: 1.5%;
+    margin-bottom: 8px;
+
+
+}
+.cajaOP3{
+    border-radius: 20px;
+    margin-top: 14px;
+
+    width: 50%;
+    color: rgb(245, 16, 16); 
+    font-weight: bold; 
+    text-align: center;
+}
+#TituDescr{
+    margin-left: 8%;
+}
+
+#Titulito{
+    color: rgb(241, 11, 11);
+    font-weight: 640;
+    font-style: italic;
+}
+#TituDescr{
+    color: rgb(241, 11, 11);
+    font-weight: 640;
+    font-style: italic;
+}
+
+/*#actualizarOP{
+    margin-left: 1.5%;
+    margin-bottom: 8px;
+
+
+}
+#EliminarOP{
+    margin-left: 1.5%; 
+    margin-bottom: 8px;
+
+}
+#imprimirOP{
+    margin-left: 1.5%; 
+    margin-bottom: 8px;
+
+
+}*/
+
+#contenido{
+    margin-top: 2%;
+    margin-left: 4%;
+}
+.cajaOP{
+    width: 15%;
+    border-radius: 20px;
+    color: rgb(245, 16, 16); 
+    font-weight: bold; 
+    text-align: center;
+
+}
+#contenido2{
+    margin-left: 8%;
+     margin-top: 1%;
+     margin-bottom: 12px;
+}
+#tallas{
+    width: 300px;
+}
+

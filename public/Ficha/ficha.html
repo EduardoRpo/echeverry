@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/estilos.css">
+
+    <link rel="stylesheet" href="plugins/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="sweetalert2.all.min.js"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+    <!--firebase-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
+    <title>Ficha</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css" />
+    <!--datables CSS básico-->
+    <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css" />
+    <!--datables estilo bootstrap 4 CSS-->
+    <link rel="stylesheet" type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light "
+    style="background: #fff; border-bottom: 1px solid #41eb16; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="../entrada.html">
+            <img src="img/logo.jpg" alt="" width="90"
+                height="60" style="border-radius: 5%; background: #fff;" class="d-inline-block align-text-top"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <h3>Ficha Técnica</h3>
+        <div class="collapse navbar-collapse " id="navbarNav">
+            <ul class="navbar-nav " style="margin-left: auto;">
+                <li class="nav-item">
+                    <a class="nav-link" style="font-weight: bold; color: #000;" aria-current="page"
+                        href="../entrada.html" id="registro">Regresar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="font-weight: bold; color: #f28367; display: none;" aria-current="page"
+                        href="casos.html" id="asignaciones">Casos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="#" data-bs-toggle='modal' data-bs-target='#signupModal'
+                        style="font-weight: bold; color: #f28367; display: none;" aria-current="page">Crear
+                        usuario</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="entrar" data-bs-toggle='modal' data-bs-target='#signinModal'
+                        style="font-weight: bold; color: #f28367; display: none;" aria-current="page">Entrar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logout" style="font-weight: bold; color: #f28367; display: none;"
+                        aria-current="page">Salir</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="container">
+
+        <div class="row mt-3">
+            <div class="col-6">
+                
+                <div class="table-wrapper-scroll-y my-custom-scrollbar" style=" background-color: rgb(29, 163, 16);  border-radius: 10px;
+                border-style: ridge;
+                border-color: gold;
+                border-width: 3px;" id="tablaReferencias">
+
+                    <table class="table table-bordered table-striped mb-0" id="dtVerticalScrollExample" cellspacing="0"
+                        width="100%" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="color: rgb(214, 20, 20); ">Cliente</th>
+                                <th scope="col" style="color: rgb(214, 20, 20); ">Referencia</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody id="tablaRefe" style="color: white;">
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <input type="button" value="Mostrar" onclick="MostrarTable()" class="btn btn-primary mt-1">
+            </div>
+            <div class="col-1"></div>
+
+            <div class="col-5">
+                <div class="">
+                    <input type="button" value="Mostrar" onclick="MostrarTable2()" class="btn btn-primary mb-1" style="display: none;">
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar" style=" background-color: rgb(29, 163, 16);  border-radius: 10px;
+                    border-style: ridge;
+                    border-color: gold;
+                    border-width: 3px;" id="tablaReferencias2">
+
+                        <table class="table table-bordered table-striped mb-0" id="dtVerticalScrollExample2"
+                            cellspacing="0" width="100%" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="color: rgb(214, 20, 20); ">Codigo</th>
+                                    <th scope="col" style="color: rgb(214, 20, 20); ">Referencia</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody id="tablaRefe2" style="color: white;">
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-3"></div>
+        </div>
+
+        <div class="row mt-5">
+
+            <div class="col-4" style="">
+
+                <div class="card text-white bg-success mb-3" style="max-width: 18rem;" id="">
+                    <div class="card-header" id="tipoText">Tipo de Prenda</div>
+                    <div class="card-body">
+
+                        Fecha:<input id="fecha" type="text">
+
+                        <textarea name="textarea" id="txtTarea" rows="5" cols="22" style="margin-left: 18%;"></textarea>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+            <div class="col-4">
+
+                <h6 id="">Referencia:</h6>
+
+                <input type="text" id="Referencia" class="parametro1" placeholder="Referencia"
+                    onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()"
+                    style="color: rgb(245, 16, 16); font-weight: bold; text-align: center; border-radius: 15px;">
+
+                <!--<input  type="number" id="OrdenProduccion" class="parametro1" placeholder="# de O.P" >-->
+                <h6 id="txtCliente">Cliente:</h6>
+                <input type="text" id="cliente" class="parametro1" placeholder="Cliente" list="clienteList"
+                    onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()"
+                    style="color: rgb(245, 16, 16); font-weight: bold; text-align: center; border-radius: 15px;">
+
+
+                <datalist id="clienteList">
+                    <option id="53c911ea609252c600632dfe" value="ALPES">ALPES</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="RUFFOS">RUFFOS</option>
+                    <option id="53c911ea6034534535k345th" value="ST.EVEN">ST.EVEN</option>
+                    <option id="53c911ea60925234234234er" value="MUESTRAS Y COTIZACIONES">MUESTRAS Y
+                        COTIZACIONES</option>
+                    <option id="53c911ea609252c600632dfe" value="C.I.ALFA INGENIERIA">C.I.ALFA INGENIERIA
+                    </option>
+                    <option id="53c911ea60925sdfs4e444eg" value="C.I. UNIROCA">C.I. UNIROCA</option>
+                    <option id="53c911ea6034534535k345th" value="AUDAX">AUDAX </option>
+                    <option id="53c911ea60925234234234er" value="ALMARTEX">ALMARTEX</option>
+                    <option id="53c911ea609252c600632dfe" value="DECONTEX">DECONTEX</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="FIORY">FIORY</option>
+                    <option id="53c911ea609252c600632dfe" value="GOCO">GOCO</option>
+
+                    <option id="53c911ea6034534535k345th" value="AIRES DE MODA">AIRES DE MODA </option>
+                    <option id="53c911ea60925234234234er" value="COMUSA">COMUSA</option>
+                    <option id="53c911ea609252c600632dfe" value="WA S.A">WA S.A</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="G&G">G&G</option>
+                    <option id="53c911ea609252c600632dfe" value="T.S.FACTORY">T.S.FACTORY</option>
+                    <option id="53c911ea609252c600632dfe" value="TENDEX">TENDEX</option>
+                    <option id="53c911ea60925sdfs4e444eg" value="BHK">BHK</option>
+                    <option id="53c911ea609252c600632dfe" value="SPELL S.A.S">SPELL S.A.S</option>
+                    <option id="53c911ea609es252c600632dfe" value="LINEA DIRECTA">LINEA DIRECTA</option>
+
+
+                </datalist> <br>
+
+                <input type="button" value="Tabla" onclick="tablacompleta()" id="tablaCompleta" class="btn btn-success "
+                    style="display: none;">
+                <input type="button" value="Consultar" onclick="Leer()" class="btn btn-success mt-2">
+                <input type="button" value="Eliminar" onclick="deletear()" class="btn btn-danger mt-2" id="btnEliminar">
+
+
+
+                <h6 id="txtTT">Tiempo Total:</h6>
+
+                <input id="tiempoIncremento" placeholder="INCREMENTO" type="number">Min <br>
+
+                <h6 id="txtTR">Tiempo Real:</h6>
+
+                <input id="totaltiempo2" placeholder="Tiempo Total" type="number">Min
+
+
+
+            </div>
+            <div class="col-3" style="">
+                <div id="unoAlLado" style="position: absolute; margin-left: 60%;">
+
+
+                    <div id="DivImag">
+                        <div id="contenedor-image-frente">
+                            <h4>Delantera</h4>
+                            <img id="imagenFrente" width="120" height="150"> <br>
+                            <label class="custom-file-upload">
+                                <input type="file" id="campoarchivo" accept="image/*" onclick="fotoFrente()">
+                                Archivo
+                            </label>
+                            
+                            <div id="file-preview-zone">
+                            </div>
+
+                            <div id="mensaje"></div>
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+                    <!--	<input type="text" id="RecibirUrl"  >
+    
+                                    <input type="button" value="Buscar" onclick="mostrarFoto()" class="btn btn-success btn-lg" id="mostrarfoto">-->
+
+
+
+
+                </div>
+
+
+                <div id="divFoto2" style="position: absolute;">
+
+
+                    <div id="contenedor-image-trasera">
+                        <h4>Trasera</h4>
+                        <img id="imagenTrasera" width="120" height="150"> <br>
+                        <label class="custom-file-upload">
+                            <input type="file" id="campoarchivo2"  accept="image/*">
+                            Archivo
+                        </label>
+                        
+                        <div id="file-preview-zone2">
+                        </div>
+
+                        <div id="mensaje2"></div>
+                    </div>
+
+
+                    <input type="button" value="Subir Imagenes" class="btn btn-outline-danger" onclick="fotoTras()"
+                        style="position: absolute;" id="btnSubirFotos">
+                    <input type="button" value="Actualizar" onclick="actualizarFotos()"
+                        style="position: absolute; margin-left: 300px; display:none">
+
+                    <input type="button" value="Actualizar Imagenes" class="btn btn-outline-success"
+                        onclick="actuFotos()" style="position: absolute; margin-left: 900px; display: none;"
+                        id="btnActuFotos">
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+
+        <div class="row mt-5">
+            <div class="col-12">
+
+                <div class="list-group" id="tareas">
+
+
+                    <div class="list-group-item card border-success " data-identificador="1">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op1" class="caja1" placeholder="COD"
+                            onchange="cod1(this.value)">
+
+                        <input type="text" id="descrip1" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq1" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to1" class="caja" placeholder="T.O">
+                        <input type="number" id="s1" class="caja" placeholder="S">
+                        <input type="number" id="estan1" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem1" class="caja" placeholder="UND">
+                        <input type="text" id="comen1" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="Anadir()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar1()"
+                            id="Limpiar1">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="2">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op2" class="caja1" placeholder="COD"
+                            onchange="cod2(this.value)">
+
+                        <input type="text" id="descrip2" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq2" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to2" class="caja" placeholder="T.O">
+                        <input type="number" id="s2" class="caja" placeholder="S">
+                        <input type="number" id="estan2" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem2" class="caja" placeholder="UND">
+                        <input type="text" id="comen2" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirDos()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar2()"
+                            id="Limpiar2">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="3">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op3" class="caja1" placeholder="COD"
+                            onchange="cod3(this.value)">
+
+                        <input type="text" id="descrip3" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq3" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to3" class="caja" placeholder="T.O">
+                        <input type="number" id="s3" class="caja" placeholder="S">
+                        <input type="number" id="estan3" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem3" class="caja" placeholder="UND">
+                        <input type="text" id="comen3" class="comen" placeholder="Comentarios">
+
+                        <input type="button" value="Añadir" onclick="AnadirTres()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar3()"
+                            id="Limpiar3">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="4">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op4" class="caja1" placeholder="COD"
+                            onchange="cod4(this.value)">
+
+                        <input type="text" id="descrip4" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq4" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to4" class="caja" placeholder="T.O">
+                        <input type="number" id="s4" class="caja" placeholder="S">
+                        <input type="number" id="estan4" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem4" class="caja" placeholder="UND">
+                        <input type="text" id="comen4" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCuatro()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar4()"
+                            id="Limpiar4">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="5">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op5" class="caja1" placeholder="COD"
+                            onchange="cod5(this.value)">
+
+                        <input type="text" id="descrip5" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq5" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to5" class="caja" placeholder="T.O">
+                        <input type="number" id="s5" class="caja" placeholder="S">
+                        <input type="number" id="estan5" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem5" class="caja" placeholder="UND">
+                        <input type="text" id="comen5" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCinco()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar5()"
+                            id="Limpiar5">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="6">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op6" class="caja1" placeholder="COD"
+                            onchange="cod6(this.value)">
+
+                        <input type="text" id="descrip6" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq6" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to6" class="caja" placeholder="T.O">
+                        <input type="number" id="s6" class="caja" placeholder="S">
+                        <input type="number" id="estan6" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem6" class="caja" placeholder="UND">
+                        <input type="text" id="comen6" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirSeis()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar6()"
+                            id="Limpiar6">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="7">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op7" class="caja1" placeholder="COD"
+                            onchange="cod7(this.value)">
+
+                        <input type="text" id="descrip7" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq7" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to7" class="caja" placeholder="T.O">
+                        <input type="number" id="s7" class="caja" placeholder="S">
+                        <input type="number" id="estan7" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem7" class="caja" placeholder="UND">
+                        <input type="text" id="comen7" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirSiete()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar7()"
+                            id="Limpiar7">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="8">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op8" class="caja1" placeholder="COD"
+                            onchange="cod8(this.value)">
+
+                        <input type="text" id="descrip8" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq8" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to8" class="caja" placeholder="T.O">
+                        <input type="number" id="s8" class="caja" placeholder="S">
+                        <input type="number" id="estan8" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem8" class="caja" placeholder="UND">
+                        <input type="text" id="comen8" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirOcho()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar8()"
+                            id="Limpiar8">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="9">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op9" class="caja1" placeholder="COD"
+                            onchange="cod9(this.value)">
+
+                        <input type="text" id="descrip9" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq9" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to9" class="caja" placeholder="T.O">
+                        <input type="number" id="s9" class="caja" placeholder="S">
+                        <input type="number" id="estan9" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem9" class="caja" placeholder="UND">
+                        <input type="text" id="comen9" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirNueve()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar9()"
+                            id="Limpiar9">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="10">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op10" class="caja1" placeholder="COD"
+                            onchange="cod10(this.value)">
+
+                        <input type="text" id="descrip10" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq10" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to10" class="caja" placeholder="T.O">
+                        <input type="number" id="s10" class="caja" placeholder="S">
+                        <input type="number" id="estan10" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem10" class="caja" placeholder="UND">
+                        <input type="text" id="comen10" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirDiez()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar10()"
+                            id="Limpiar10">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="11">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op11" class="caja1" placeholder="COD"
+                            onchange="cod11(this.value)">
+
+                        <input type="text" id="descrip11" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq11" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to11" class="caja" placeholder="T.O">
+                        <input type="number" id="s11" class="caja" placeholder="S">
+                        <input type="number" id="estan11" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem11" class="caja" placeholder="UND">
+                        <input type="text" id="comen11" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirOnce()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar11()"
+                            id="Limpiar11">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="12">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op12" class="caja1" placeholder="COD"
+                            onchange="cod12(this.value)">
+
+                        <input type="text" id="descrip12" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq12" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to12" class="caja" placeholder="T.O">
+                        <input type="number" id="s12" class="caja" placeholder="S">
+                        <input type="number" id="estan12" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem12" class="caja" placeholder="UND">
+                        <input type="text" id="comen12" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirDoce()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar12()"
+                            id="Limpiar12">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="13">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op13" class="caja1" placeholder="COD"
+                            onchange="cod13(this.value)">
+
+                        <input type="text" id="descrip13" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq13" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to13" class="caja" placeholder="T.O">
+                        <input type="number" id="s13" class="caja" placeholder="S">
+                        <input type="number" id="estan13" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem13" class="caja" placeholder="UND">
+                        <input type="text" id="comen13" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirTrece()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar13()"
+                            id="Limpiar13">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="14">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op14" class="caja1" placeholder="COD"
+                            onchange="cod14(this.value)">
+
+                        <input type="text" id="descrip14" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq14" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to14" class="caja" placeholder="T.O">
+                        <input type="number" id="s14" class="caja" placeholder="S">
+                        <input type="number" id="estan14" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem14" class="caja" placeholder="UND">
+                        <input type="text" id="comen14" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCatorce()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar14()"
+                            id="Limpiar14">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="15">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op15" class="caja1" placeholder="COD"
+                            onchange="cod15(this.value)">
+
+                        <input type="text" id="descrip15" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq15" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to15" class="caja" placeholder="T.O">
+                        <input type="number" id="s15" class="caja" placeholder="S">
+                        <input type="number" id="estan15" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem15" class="caja" placeholder="UND">
+                        <input type="text" id="comen15" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirQuince()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar15()"
+                            id="Limpiar15">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="16">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op16" class="caja1" placeholder="COD"
+                            onchange="cod16(this.value)">
+
+                        <input type="text" id="descrip16" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq16" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to16" class="caja" placeholder="T.O">
+                        <input type="number" id="s16" class="caja" placeholder="S">
+                        <input type="number" id="estan16" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem16" class="caja" placeholder="UND">
+                        <input type="text" id="comen16" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirDiecises()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar16()"
+                            id="Limpiar16">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="17">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op17" class="caja1" placeholder="COD"
+                            onchange="cod17(this.value)">
+
+                        <input type="text" id="descrip17" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq17" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to17" class="caja" placeholder="T.O">
+                        <input type="number" id="s17" class="caja" placeholder="S">
+                        <input type="number" id="estan17" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem17" class="caja" placeholder="UND">
+                        <input type="text" id="comen17" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirDisiete()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar17()"
+                            id="Limpiar17">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="18">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op18" class="caja1" placeholder="COD"
+                            onchange="cod18(this.value)">
+
+                        <input type="text" id="descrip18" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq18" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to18" class="caja" placeholder="T.O">
+                        <input type="number" id="s18" class="caja" placeholder="S">
+                        <input type="number" id="estan18" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem18" class="caja" placeholder="UND">
+                        <input type="text" id="comen18" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirDiocho()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar18()"
+                            id="Limpiar18">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="19">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op19" class="caja1" placeholder="COD"
+                            onchange="cod19(this.value)">
+
+                        <input type="text" id="descrip19" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq19" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to19" class="caja" placeholder="T.O">
+                        <input type="number" id="s19" class="caja" placeholder="S">
+                        <input type="number" id="estan19" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem19" class="caja" placeholder="UND">
+                        <input type="text" id="comen19" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirDinueve()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar19()"
+                            id="Limpiar19">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="20">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op20" class="caja1" placeholder="COD"
+                            onchange="cod20(this.value)">
+
+                        <input type="text" id="descrip20" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq20" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to20" class="caja" placeholder="T.O">
+                        <input type="number" id="s20" class="caja" placeholder="S">
+                        <input type="number" id="estan20" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem20" class="caja" placeholder="UND">
+                        <input type="text" id="comen20" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirVein()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar20()"
+                            id="Limpiar20">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="21">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op21" class="caja1" placeholder="COD"
+                            onchange="cod21(this.value)">
+
+                        <input type="text" id="descrip21" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq21" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to21" class="caja" placeholder="T.O">
+                        <input type="number" id="s21" class="caja" placeholder="S">
+                        <input type="number" id="estan21" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem21" class="caja" placeholder="UND">
+                        <input type="text" id="comen21" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirVeuno()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar21()"
+                            id="Limpiar21">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="22">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op22" class="caja1" placeholder="COD"
+                            onchange="cod22(this.value)">
+
+                        <input type="text" id="descrip22" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq22" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to22" class="caja" placeholder="T.O">
+                        <input type="number" id="s22" class="caja" placeholder="S">
+                        <input type="number" id="estan22" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem22" class="caja" placeholder="UND">
+                        <input type="text" id="comen22" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirVedos()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar22()"
+                            id="Limpiar22">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="23">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op23" class="caja1" placeholder="COD"
+                            onchange="cod23(this.value)">
+
+                        <input type="text" id="descrip23" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq23" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to23" class="caja" placeholder="T.O">
+                        <input type="number" id="s23" class="caja" placeholder="S">
+                        <input type="number" id="estan23" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem23" class="caja" placeholder="UND">
+                        <input type="text" id="comen23" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirVetres()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar23()"
+                            id="Limpiar23">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="24">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op24" class="caja1" placeholder="COD"
+                            onchange="cod24(this.value)">
+
+                        <input type="text" id="descrip24" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq24" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to24" class="caja" placeholder="T.O">
+                        <input type="number" id="s24" class="caja" placeholder="S">
+                        <input type="number" id="estan24" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem24" class="caja" placeholder="UND">
+                        <input type="text" id="comen24" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirVecuatro()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar24()"
+                            id="Limpiar24">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="25">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op25" class="caja1" placeholder="COD"
+                            onchange="cod25(this.value)">
+
+                        <input type="text" id="descrip25" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq25" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to25" class="caja" placeholder="T.O">
+                        <input type="number" id="s25" class="caja" placeholder="S">
+                        <input type="number" id="estan25" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem25" class="caja" placeholder="UND">
+                        <input type="text" id="comen25" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirVecinco()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar25()"
+                            id="Limpiar25">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="26">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op26" class="caja1" placeholder="COD"
+                            onchange="cod26(this.value)">
+
+                        <input type="text" id="descrip26" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq26" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to26" class="caja" placeholder="T.O">
+                        <input type="number" id="s26" class="caja" placeholder="S">
+                        <input type="number" id="estan26" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem26" class="caja" placeholder="UND">
+                        <input type="text" id="comen26" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirVeseis()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar26()"
+                            id="Limpiar26">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="27">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op27" class="caja1" placeholder="COD"
+                            onchange="cod27(this.value)">
+
+                        <input type="text" id="descrip27" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq27" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to27" class="caja" placeholder="T.O">
+                        <input type="number" id="s27" class="caja" placeholder="S">
+                        <input type="number" id="estan27" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem27" class="caja" placeholder="UND">
+                        <input type="text" id="comen27" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="Anadirsiete()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar27()"
+                            id="Limpiar27">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="28">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op28" class="caja1" placeholder="COD"
+                            onchange="cod28(this.value)">
+
+                        <input type="text" id="descrip28" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq28" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to28" class="caja" placeholder="T.O">
+                        <input type="number" id="s28" class="caja" placeholder="S">
+                        <input type="number" id="estan28" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem28" class="caja" placeholder="UND">
+                        <input type="text" id="comen28" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirVeocho()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar28()"
+                            id="Limpiar28">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="29">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op29" class="caja1" placeholder="COD"
+                            onchange="cod29(this.value)">
+
+                        <input type="text" id="descrip29" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq29" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to29" class="caja" placeholder="T.O">
+                        <input type="number" id="s29" class="caja" placeholder="S">
+                        <input type="number" id="estan29" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem29" class="caja" placeholder="UND">
+                        <input type="text" id="comen29" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirVenueve()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar29()"
+                            id="Limpiar29">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="30">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op30" class="caja1" placeholder="COD"
+                            onchange="cod30(this.value)">
+
+                        <input type="text" id="descrip30" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq30" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to30" class="caja" placeholder="T.O">
+                        <input type="number" id="s30" class="caja" placeholder="S">
+                        <input type="number" id="estan30" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem30" class="caja" placeholder="UND">
+                        <input type="text" id="comen30" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirTrein()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar30()"
+                            id="Limpiar30">
+                    </div>
+
+                    <div class="list-group-item card border-success" data-identificador="31">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op31" class="caja1" placeholder="COD"
+                            onchange="cod31(this.value)">
+
+                        <input type="text" id="descrip31" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq31" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to31" class="caja" placeholder="T.O">
+                        <input type="number" id="s31" class="caja" placeholder="S">
+                        <input type="number" id="estan31" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem31" class="caja" placeholder="UND">
+                        <input type="text" id="comen31" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirTreinuno()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar31()"
+                            id="Limpiar31">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="32">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op32" class="caja1" placeholder="COD"
+                            onchange="cod32(this.value)">
+
+                        <input type="text" id="descrip32" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq32" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to32" class="caja" placeholder="T.O">
+                        <input type="number" id="s32" class="caja" placeholder="S">
+                        <input type="number" id="estan32" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem32" class="caja" placeholder="UND">
+                        <input type="text" id="comen32" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirTreidos()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar32()"
+                            id="Limpiar32">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="33">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op33" class="caja1" placeholder="COD"
+                            onchange="cod33(this.value)">
+
+                        <input type="text" id="descrip33" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq33" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to33" class="caja" placeholder="T.O">
+                        <input type="number" id="s33" class="caja" placeholder="S">
+                        <input type="number" id="estan33" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem33" class="caja" placeholder="UND">
+                        <input type="text" id="comen33" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirTretrets()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar33()"
+                            id="Limpiar33">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="34">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op34" class="caja1" placeholder="COD"
+                            onchange="cod34(this.value)">
+
+                        <input type="text" id="descrip34" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq34" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to34" class="caja" placeholder="T.O">
+                        <input type="number" id="s34" class="caja" placeholder="S">
+                        <input type="number" id="estan34" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem34" class="caja" placeholder="UND">
+                        <input type="text" id="comen34" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirTreincuatro()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar34()"
+                            id="Limpiar34">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="35">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op35" class="caja1" placeholder="COD"
+                            onchange="cod35(this.value)">
+
+                        <input type="text" id="descrip35" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq35" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to35" class="caja" placeholder="T.O">
+                        <input type="number" id="s35" class="caja" placeholder="S">
+                        <input type="number" id="estan35" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem35" class="caja" placeholder="UND">
+                        <input type="text" id="comen35" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirTreincinco()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar35()"
+                            id="Limpiar35">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="36">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op36" class="caja1" placeholder="COD"
+                            onchange="cod36(this.value)">
+
+                        <input type="text" id="descrip36" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq36" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to36" class="caja" placeholder="T.O">
+                        <input type="number" id="s36" class="caja" placeholder="S">
+                        <input type="number" id="estan36" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem36" class="caja" placeholder="UND">
+                        <input type="text" id="comen36" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirTreseis()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar36()"
+                            id="Limpiar36">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="37">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op37" class="caja1" placeholder="COD"
+                            onchange="cod37(this.value)">
+
+                        <input type="text" id="descrip37" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq37" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to37" class="caja" placeholder="T.O">
+                        <input type="number" id="s37" class="caja" placeholder="S">
+                        <input type="number" id="estan37" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem37" class="caja" placeholder="UND">
+                        <input type="text" id="comen37" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="Anadirtresiete()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar37()"
+                            id="Limpiar37">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="38">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op38" class="caja1" placeholder="COD"
+                            onchange="cod38(this.value)">
+
+                        <input type="text" id="descrip38" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq38" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to38" class="caja" placeholder="T.O">
+                        <input type="number" id="s38" class="caja" placeholder="S">
+                        <input type="number" id="estan38" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem38" class="caja" placeholder="UND">
+                        <input type="text" id="comen38" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirTreocho()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar38()"
+                            id="Limpiar38">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="39">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op39" class="caja1" placeholder="COD"
+                            onchange="cod39(this.value)">
+
+                        <input type="text" id="descrip39" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq39" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to39" class="caja" placeholder="T.O">
+                        <input type="number" id="s39" class="caja" placeholder="S">
+                        <input type="number" id="estan39" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem39" class="caja" placeholder="UND">
+                        <input type="text" id="comen39" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirTrenueve()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar39()"
+                            id="Limpiar39">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="40">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op40" class="caja1" placeholder="COD"
+                            onchange="cod40(this.value)">
+
+                        <input type="text" id="descrip40" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq40" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to40" class="caja" placeholder="T.O">
+                        <input type="number" id="s40" class="caja" placeholder="S">
+                        <input type="number" id="estan40" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem40" class="caja" placeholder="UND">
+                        <input type="text" id="comen40" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCuaren()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar40()"
+                            id="Limpiar40">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="41">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op41" class="caja1" placeholder="COD"
+                            onchange="cod41(this.value)">
+
+                        <input type="text" id="descrip41" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq41" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to41" class="caja" placeholder="T.O">
+                        <input type="number" id="s41" class="caja" placeholder="S">
+                        <input type="number" id="estan41" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem41" class="caja" placeholder="UND">
+                        <input type="text" id="comen41" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCuauno()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar41()"
+                            id="Limpiar41">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="42">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op42" class="caja1" placeholder="COD"
+                            onchange="cod42(this.value)">
+
+                        <input type="text" id="descrip42" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq42" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to42" class="caja" placeholder="T.O">
+                        <input type="number" id="s42" class="caja" placeholder="S">
+                        <input type="number" id="estan42" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem42" class="caja" placeholder="UND">
+                        <input type="text" id="comen42" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCuados()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar42()"
+                            id="Limpiar42">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="43">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op43" class="caja1" placeholder="COD"
+                            onchange="cod43(this.value)">
+
+                        <input type="text" id="descrip43" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq43" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to43" class="caja" placeholder="T.O">
+                        <input type="number" id="s43" class="caja" placeholder="S">
+                        <input type="number" id="estan43" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem43" class="caja" placeholder="UND">
+                        <input type="text" id="comen43" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCuatres()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar43()"
+                            id="Limpiar43">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="44">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op44" class="caja1" placeholder="COD"
+                            onchange="cod44(this.value)">
+
+                        <input type="text" id="descrip44" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq44" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to44" class="caja" placeholder="T.O">
+                        <input type="number" id="s44" class="caja" placeholder="S">
+                        <input type="number" id="estan44" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem44" class="caja" placeholder="UND">
+                        <input type="text" id="comen44" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCuacuat()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar44()"
+                            id="Limpiar44">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="45">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op45" class="caja1" placeholder="COD"
+                            onchange="cod45(this.value)">
+
+                        <input type="text" id="descrip45" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq45" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to45" class="caja" placeholder="T.O">
+                        <input type="number" id="s45" class="caja" placeholder="S">
+                        <input type="number" id="estan45" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem45" class="caja" placeholder="UND">
+                        <input type="text" id="comen45" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCuacinco()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar45()"
+                            id="Limpiar45">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="46">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op46" class="caja1" placeholder="COD"
+                            onchange="cod46(this.value)">
+
+                        <input type="text" id="descrip46" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq46" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to46" class="caja" placeholder="T.O">
+                        <input type="number" id="s46" class="caja" placeholder="S">
+                        <input type="number" id="estan46" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem46" class="caja" placeholder="UND">
+                        <input type="text" id="comen46" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCuaseis()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar46()"
+                            id="Limpiar46">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="47">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op47" class="caja1" placeholder="COD"
+                            onchange="cod47(this.value)">
+
+                        <input type="text" id="descrip47" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq47" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to47" class="caja" placeholder="T.O">
+                        <input type="number" id="s47" class="caja" placeholder="S">
+                        <input type="number" id="estan47" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem47" class="caja" placeholder="UND">
+                        <input type="text" id="comen47" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCuasiete()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar47()"
+                            id="Limpiar47">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="48">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op48" class="caja1" placeholder="COD"
+                            onchange="cod48(this.value)">
+
+                        <input type="text" id="descrip48" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq48" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to48" class="caja" placeholder="T.O">
+                        <input type="number" id="s48" class="caja" placeholder="S">
+                        <input type="number" id="estan48" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem48" class="caja" placeholder="UND">
+                        <input type="text" id="comen48" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCuanocho()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar48()"
+                            id="Limpiar48">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="49">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op49" class="caja1" placeholder="COD"
+                            onchange="cod49(this.value)">
+
+                        <input type="text" id="descrip49" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq49" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to49" class="caja" placeholder="T.O">
+                        <input type="number" id="s49" class="caja" placeholder="S">
+                        <input type="number" id="estan49" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem49" class="caja" placeholder="UND">
+                        <input type="text" id="comen49" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCuannueve()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar49()"
+                            id="Limpiar49">
+                    </div>
+
+
+                    <div class="list-group-item card border-success" data-identificador="50">
+                        <i class="fas fa-grip-lines mr-2"></i>
+                        <input type="text" list="listado1" id="op50" class="caja1" placeholder="COD"
+                            onchange="cod50(this.value)">
+
+                        <input type="text" id="descrip50" class="parametro" placeholder="Operacion" autocomplete="on">
+                        <input type="text" id="mq50" class="caja" placeholder="MQ" autocomplete="on" list="listadoTO">
+                        <datalist id="listadoTO">
+                            <option id="53c911ea609252c600632dfe" value="P1A">P1A</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="R">R</option>
+                            <option id="53c911ea6034534535k345th" value="RR2A">RR2A</option>
+                            <option id="53c911ea60925234234234er" value="RR3A">RR3A</option>
+                            <option id="53c911ea609252c600632dfe" value="F.C.P.S">F.C.P.S</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="F.S.P.S">F.S.P.S</option>
+                            <option id="53c911ea6034534535k345th" value="B">B </option>
+                            <option id="53c911ea60925234234234er" value="O">O</option>
+                            <option id="53c911ea609252c600632dfe" value="M.T">M.T</option>
+                            <option id="53c911ea60925sdfs4e444eg" value="S2A">S2A</option>
+                            <option id="53c911ea609252c600632dfe" value="S3A">S3A</option>
+                            <option id="53c911ea609252c600632dfe" value="P.E">P.E</option>
+
+                        </datalist>
+
+                        <input type="number" id="to50" class="caja" placeholder="T.O">
+                        <input type="number" id="s50" class="caja" placeholder="S">
+                        <input type="number" id="estan50" class="caja" placeholder="T ESTD">
+                        <input type="number" id="tiem50" class="caja" placeholder="UND">
+                        <input type="text" id="comen50" class="comen" placeholder="Comentarios">
+                        <input type="button" value="Añadir" onclick="AnadirCicuenta()" class="btn btn-dark mt-1">
+                        <input type="button" class="btn btn-warning mt-1" value="Limpiar" onclick="limpiar50()"
+                            id="Limpiar50">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-6">
+                <input type="button" value="Registrar" onclick="Guardar()" class="btn btn-success ">
+
+
+            </div>
+            <div class="col-6">
+
+                <h4 id="h4tiempo">Tiempo Estandar:</h4>
+                <input id="totaltiempo" placeholder="Tiempo Total" type="number"><input type="button"
+                    class="btn btn-primary " value="Calcular" onclick="calcularTie()" id="calculartiem">
+                <input type="button" value="Actualizar" onclick="editar1()" class="btn btn-success " id="Editar1"><br>
+
+
+            </div>
+        </div>
+    </div>
+    <!--jquery-->
+    <script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+    <!---->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+        integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+        crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+    <script src="js/Sortable.min.js"></script>
+
+
+    <script type="text/javascript" src="datatables/datatables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/plug-ins/1.10.20/api/sum().js"></script>
+    <script src="js/options.js"></script>
+    <script src="plugins/sweetalert2/sweetalert2.all.min.js"></script>
+</body>
+
+</html>

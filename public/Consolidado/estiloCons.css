@@ -1,0 +1,11 @@
+table th {  
+    background-color: #28a745 !important;
+    color: white;
+}
+table>tbody>tr>td {  
+    vertical-align: middle !important;
+}
+
+.btn-group, .btn-group-vertical{  
+    position: absolute !important;
+}

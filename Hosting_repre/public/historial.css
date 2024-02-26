@@ -1,0 +1,110 @@
+body{
+    /*    background: #673AB7;*/
+   
+    }
+    header{
+
+
+        background-color: teal;
+        /*width: 100px;*/
+        height: 110px;
+    } 
+    #tit{
+        /*margin-left: 26%;*/
+        text-align: center;
+        color: #fff;
+    }
+    .login-box .avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 10%;
+        position: absolute;
+        margin-left: 1%;
+        top: 1%;
+       /* left: calc(50% - 50px);*/
+        border-style: ridge;
+        border-color: #41eb16;
+        
+      }
+      #btnConsultar{
+          margin-left: 25%;
+      }
+      #consultar{
+          border-radius: 20px;
+          border-color: #c7e908;
+      }
+#btnConsultar{
+      border: none;
+    outline: none;
+    height: 40px;
+    background: #b80f22;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 20px;
+}
+#btnBusFech{
+    border: none;
+    outline: none;
+    height: 40px;
+    background: #b80f22;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 20px;
+
+}
+#btnConsultar:hover {
+    cursor: pointer;
+    background: #ffc107;
+    color: #000;
+  }
+  #btnBusFech:hover {
+    cursor: pointer;
+    background: #ffc107;
+    color: #000;
+  }
+  #btnSumac:hover{
+    cursor: pointer;
+    background: #ffc107;
+    color: #000;
+  }
+  #comentariosHisto:hover{
+    cursor: pointer;
+    background: #ffc107;
+    color: #000;
+  }
+  #actComen:hover{
+    cursor: pointer;
+    background: #ffc107;
+    color: #000;
+  }
+  .my-custom-scrollbar2 {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+    }
+    .my-custom-scrollbar3 {
+        position: relative;
+        height: 250px;
+        overflow: auto;
+        }
+.my-custom-scrollbar {
+    margin: auto;
+    width: 90%;
+    margin-top: 10px;
+    position: relative;
+    height: 250px;
+    overflow: auto;
+    }
+    .table-wrapper-scroll-y {
+        background: #81da96;
+    display: block;
+    border-radius: 10px;
+    
+    }
+    
+    #actuGestioE:hover {
+      cursor: pointer;
+      background: #ffc107;
+      color: #000;
+    }
+  
