@@ -3490,13 +3490,37 @@ function consultarFechas() {
                             Rendi = ((rela * 100) / (TiempoTrabajaSin)) / numeroOperarios;
 
 
+                            // Formateando Hora Inicio
+                            var fechaInicio = new Date(inicio);
 
+                            var horasini = fechaInicio.getHours();
+                            var minutosini = fechaInicio.getMinutes();
+                            var segundosini = fechaInicio.getSeconds();
+
+                            horasini = (horasini < 10) ? "0" + horasini : horasini;
+                            minutosini = (minutosini < 10) ? "0" + minutosini : minutosini;
+                            segundosini = (segundosini < 10) ? "0" + segundosini : segundosini;
+
+                            var horaFormateada = horasini + ":" + minutosini + ":" + segundosini;
+
+                            // Formateando Hora Fin
+                            var fechaFin = new Date(fianl);
+
+                            var horasFin = fechaFin.getHours();
+                            var minutosFin = fechaFin.getMinutes();
+                            var segundosFin = fechaFin.getSeconds();
+
+                            horasFin = (horasFin < 10) ? "0" + horasFin : horasFin;
+                            minutosFin = (minutosFin < 10) ? "0" + minutosFin : minutosFin;
+                            segundosFin = (segundosFin < 10) ? "0" + segundosFin : segundosFin;
+
+                            var horaFormateadaFin = horasFin + ":" + minutosFin + ":" + segundosFin;
 
 
                             //---------------fin ref--------------
 
 
-                            dataSet.push([fecha, numeOp, nombreReferencia, OperarioFec, integrantes, Operacion + '  ' + Operacion2 + '  ' + Operacion3 + '  ' + Operacion4 + '  ' + Operacion5 + '  ' + Operacion6 + '  ' + Operacion7 + '  ' + Operacion8 + '  ' + Operacion9, TiempoStdTotal, cantidadElabo, TiempoTrabajaSin, Math.round(Rendi)]);
+                            dataSet.push(["Inicio: "+horaFormateada+"\n"+"Fin: "+horaFormateadaFin, numeOp, nombreReferencia, OperarioFec, integrantes, Operacion + '  ' + Operacion2 + '  ' + Operacion3 + '  ' + Operacion4 + '  ' + Operacion5 + '  ' + Operacion6 + '  ' + Operacion7 + '  ' + Operacion8 + '  ' + Operacion9, TiempoStdTotal, cantidadElabo, TiempoTrabajaSin, Math.round(Rendi)]);
 
                             i = i + 1;
 
@@ -3523,7 +3547,7 @@ function consultarFechas() {
                                     "bDestroy": true,
 
                                     columns: [
-                                        { title: "Fecha" },
+                                        { title: "Horas" },
                                         { title: "OP" },
                                         { title: "Referencia" },
                                         { title: "Modulo" },
