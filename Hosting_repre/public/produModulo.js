@@ -19766,15 +19766,15 @@ function ConsulProd() {
           var nom = document.getElementById("nombre").value;
           var orden = document.getElementById("op").value;
           // var maqui=document.getElementById("mq").value;
-          var opera = document.getElementById("operaci").value;
-          var opera2 = document.getElementById("operaci2").value;
-          var opera3 = document.getElementById("operaci3").value;
-          var opera4 = document.getElementById("operaci4").value;
-          var opera5 = document.getElementById("operaci5").value;
-          var opera6 = document.getElementById("operaci6").value;
-          var opera7 = document.getElementById("operaci7").value;
-          var opera8 = document.getElementById("operaci8").value;
-          var opera9 = document.getElementById("operaci9").value;
+          var opera = document.getElementById("operaci").value.trim();
+          var opera2 = document.getElementById("operaci2").value.trim();
+          var opera3 = document.getElementById("operaci3").value.trim();
+          var opera4 = document.getElementById("operaci4").value.trim();
+          var opera5 = document.getElementById("operaci5").value.trim();
+          var opera6 = document.getElementById("operaci6").value.trim();
+          var opera7 = document.getElementById("operaci7").value.trim();
+          var opera8 = document.getElementById("operaci8").value.trim();
+          var opera9 = document.getElementById("operaci9").value.trim();
           var refVinculada = document.getElementById("mostrarRef").value;
 
           // fechaDelDiaActu = document.getElementById("fechaMovil").value;
@@ -24145,15 +24145,15 @@ regis = function Registar() {
   console.log("la hora final es:" + tFinal);
   var nom = document.getElementById("nombre").value;
   var orden = document.getElementById("op").value;
-  var opera = document.getElementById("operaci").value;
-  var opera2 = document.getElementById("operaci2").value;
-  var opera3 = document.getElementById("operaci3").value;
-  var opera4 = document.getElementById("operaci4").value;
-  var opera5 = document.getElementById("operaci5").value;
-  var opera6 = document.getElementById("operaci6").value;
-  var opera7 = document.getElementById("operaci7").value;
-  var opera8 = document.getElementById("operaci8").value;
-  var opera9 = document.getElementById("operaci9").value;
+  var opera = document.getElementById("operaci").value.trim();
+  var opera2 = document.getElementById("operaci2").value.trim();
+  var opera3 = document.getElementById("operaci3").value.trim();
+  var opera4 = document.getElementById("operaci4").value.trim();
+  var opera5 = document.getElementById("operaci5").value.trim();
+  var opera6 = document.getElementById("operaci6").value.trim();
+  var opera7 = document.getElementById("operaci7").value.trim();
+  var opera8 = document.getElementById("operaci8").value.trim();
+  var opera9 = document.getElementById("operaci9").value.trim();
 
   // fechaDelDia = document.getElementById("fechaMovil").value;
 
