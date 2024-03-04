@@ -548,15 +548,15 @@ tv = function () {
   tinto = 0;
   tinto2 = 0;
 
-  Operacion = document.getElementById("operaci").value;
-  Operacion2 = document.getElementById("operaci2").value;
-  Operacion3 = document.getElementById("operaci3").value;
-  Operacion4 = document.getElementById("operaci4").value;
-  Operacion5 = document.getElementById("operaci5").value;
-  Operacion6 = document.getElementById("operaci6").value;
-  Operacion7 = document.getElementById("operaci7").value;
-  Operacion8 = document.getElementById("operaci8").value;
-  Operacion9 = document.getElementById("operaci9").value;
+  Operacion = document.getElementById("operaci").value.trim();
+  Operacion2 = document.getElementById("operaci2").value.trim();
+  Operacion3 = document.getElementById("operaci3").value.trim();
+  Operacion4 = document.getElementById("operaci4").value.trim();
+  Operacion5 = document.getElementById("operaci5").value.trim();
+  Operacion6 = document.getElementById("operaci6").value.trim();
+  Operacion7 = document.getElementById("operaci7").value.trim();
+  Operacion8 = document.getElementById("operaci8").value.trim();
+  Operacion9 = document.getElementById("operaci9").value.trim();
 
   var isChecked = document.getElementById('cbComida').checked;
   if (isChecked) {
@@ -4710,15 +4710,15 @@ validacionCantidades2 = function () {
 
 
 
-  var opera1 = document.getElementById("operaci").value;
-  var opera2 = document.getElementById("operaci2").value;
-  var opera3 = document.getElementById("operaci3").value;
-  var opera4 = document.getElementById("operaci4").value;
-  var opera5 = document.getElementById("operaci5").value;
-  var opera6 = document.getElementById("operaci6").value;
-  var opera7 = document.getElementById("operaci7").value;
-  var opera8 = document.getElementById("operaci8").value;
-  var opera9 = document.getElementById("operaci9").value;
+  var opera1 = document.getElementById("operaci").value.trim();
+  var opera2 = document.getElementById("operaci2").value.trim();
+  var opera3 = document.getElementById("operaci3").value.trim();
+  var opera4 = document.getElementById("operaci4").value.trim();
+  var opera5 = document.getElementById("operaci5").value.trim();
+  var opera6 = document.getElementById("operaci6").value.trim();
+  var opera7 = document.getElementById("operaci7").value.trim();
+  var opera8 = document.getElementById("operaci8").value.trim();
+  var opera9 = document.getElementById("operaci9").value.trim();
 
 
   // unidadesElaboradaop = document.getElementById("canti").value;
@@ -8532,15 +8532,15 @@ validacionCantidades = function () {
 
 
 
-  var opera1 = document.getElementById("operaci").value;
-  var opera2 = document.getElementById("operaci2").value;
-  var opera3 = document.getElementById("operaci3").value;
-  var opera4 = document.getElementById("operaci4").value;
-  var opera5 = document.getElementById("operaci5").value;
-  var opera6 = document.getElementById("operaci6").value;
-  var opera7 = document.getElementById("operaci7").value;
-  var opera8 = document.getElementById("operaci8").value;
-  var opera9 = document.getElementById("operaci9").value;
+  var opera1 = document.getElementById("operaci").value.trim();
+  var opera2 = document.getElementById("operaci2").value.trim();
+  var opera3 = document.getElementById("operaci3").value.trim();
+  var opera4 = document.getElementById("operaci4").value.trim();
+  var opera5 = document.getElementById("operaci5").value.trim();
+  var opera6 = document.getElementById("operaci6").value.trim();
+  var opera7 = document.getElementById("operaci7").value.trim();
+  var opera8 = document.getElementById("operaci8").value.trim();
+  var opera9 = document.getElementById("operaci9").value.trim();
 
 
   unidadesElaboradaop = document.getElementById("canti").value;
@@ -12880,15 +12880,15 @@ disponibleOp1 = function () {
 
 
 
-  var opera1 = document.getElementById("operaci").value;
-  var opera2 = document.getElementById("operaci2").value;
-  var opera3 = document.getElementById("operaci3").value;
-  var opera4 = document.getElementById("operaci4").value;
-  var opera5 = document.getElementById("operaci5").value;
-  var opera6 = document.getElementById("operaci6").value;
-  var opera7 = document.getElementById("operaci7").value;
-  var opera8 = document.getElementById("operaci8").value;
-  var opera9 = document.getElementById("operaci9").value;
+  var opera1 = document.getElementById("operaci").value.trim();
+  var opera2 = document.getElementById("operaci2").value.trim();
+  var opera3 = document.getElementById("operaci3").value.trim();
+  var opera4 = document.getElementById("operaci4").value.trim();
+  var opera5 = document.getElementById("operaci5").value.trim();
+  var opera6 = document.getElementById("operaci6").value.trim();
+  var opera7 = document.getElementById("operaci7").value.trim();
+  var opera8 = document.getElementById("operaci8").value.trim();
+  var opera9 = document.getElementById("operaci9").value.trim();
 
 
   var unidadesElaboradaop = document.getElementById("canti").value;
@@ -13344,15 +13344,15 @@ contadorUnidades = function () {
 
 
 
-  var opera1 = document.getElementById("operaci").value;
-  var opera2 = document.getElementById("operaci2").value;
-  var opera3 = document.getElementById("operaci3").value;
-  var opera4 = document.getElementById("operaci4").value;
-  var opera5 = document.getElementById("operaci5").value;
-  var opera6 = document.getElementById("operaci6").value;
-  var opera7 = document.getElementById("operaci7").value;
-  var opera8 = document.getElementById("operaci8").value;
-  var opera9 = document.getElementById("operaci9").value;
+  var opera1 = document.getElementById("operaci").value.trim();
+  var opera2 = document.getElementById("operaci2").value.trim();
+  var opera3 = document.getElementById("operaci3").value.trim();
+  var opera4 = document.getElementById("operaci4").value.trim();
+  var opera5 = document.getElementById("operaci5").value.trim();
+  var opera6 = document.getElementById("operaci6").value.trim();
+  var opera7 = document.getElementById("operaci7").value.trim();
+  var opera8 = document.getElementById("operaci8").value.trim();
+  var opera9 = document.getElementById("operaci9").value.trim();
 
 
   var unidadesElaboradaop = document.getElementById("canti").value;
@@ -16117,15 +16117,15 @@ porcenSin = function () {
 
 
 
-              Operacion = document.getElementById("operaci").value;
-              Operacion2 = document.getElementById("operaci2").value;
-              Operacion3 = document.getElementById("operaci3").value;
-              Operacion4 = document.getElementById("operaci4").value;
-              Operacion5 = document.getElementById("operaci5").value;
-              Operacion6 = document.getElementById("operaci6").value;
-              Operacion7 = document.getElementById("operaci7").value;
-              Operacion8 = document.getElementById("operaci8").value;
-              Operacion9 = document.getElementById("operaci9").value;
+              Operacion = document.getElementById("operaci").value.trim();
+              Operacion2 = document.getElementById("operaci2").value.trim();
+              Operacion3 = document.getElementById("operaci3").value.trim();
+              Operacion4 = document.getElementById("operaci4").value.trim();
+              Operacion5 = document.getElementById("operaci5").value.trim();
+              Operacion6 = document.getElementById("operaci6").value.trim();
+              Operacion7 = document.getElementById("operaci7").value.trim();
+              Operacion8 = document.getElementById("operaci8").value.trim();
+              Operacion9 = document.getElementById("operaci9").value.trim();
 
 
               var comentarios = document.getElementById("Comentarios").value;
@@ -19981,15 +19981,15 @@ TablaPro = function () {
   tinto = 0;
   tinto2 = 0;
 
-  Operacion = document.getElementById("operaci").value;
-  Operacion2 = document.getElementById("operaci2").value;
-  Operacion3 = document.getElementById("operaci3").value;
-  Operacion4 = document.getElementById("operaci4").value;
-  Operacion5 = document.getElementById("operaci5").value;
-  Operacion6 = document.getElementById("operaci6").value;
-  Operacion7 = document.getElementById("operaci7").value;
-  Operacion8 = document.getElementById("operaci8").value;
-  Operacion9 = document.getElementById("operaci9").value;
+  Operacion = document.getElementById("operaci").value.trim();
+  Operacion2 = document.getElementById("operaci2").value.trim();
+  Operacion3 = document.getElementById("operaci3").value.trim();
+  Operacion4 = document.getElementById("operaci4").value.trim();
+  Operacion5 = document.getElementById("operaci5").value.trim();
+  Operacion6 = document.getElementById("operaci6").value.trim();
+  Operacion7 = document.getElementById("operaci7").value.trim();
+  Operacion8 = document.getElementById("operaci8").value.trim();
+  Operacion9 = document.getElementById("operaci9").value.trim();
 
   var isChecked = document.getElementById('cbComida').checked;
   if (isChecked) {
